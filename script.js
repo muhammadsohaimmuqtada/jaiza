@@ -1,38 +1,99 @@
 /**
- * Jaiza | Minimal JavaScript Interactions
+ * Jaiza | Interactions
+ * Mobile menu, header scroll state, scroll-reveal animations
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-    
-    // Intersection Observer for scroll animations
+
+    // ─── Mobile Navigation ───
+    const toggle = document.getElementById('mobileToggle');
+    const nav = document.getElementById('mainNav');
+    const overlay = document.getElementById('navOverlay');
+
+    function openNav() {
+        nav.classList.add('open');
+        overlay.classList.add('active');
+        toggle.classList.add('active');
+        toggle.setAttribute('aria-expanded', 'true');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeNav() {
+        nav.classList.remove('open');
+        overlay.classList.remove('active');
+        toggle.classList.remove('active');
+        toggle.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+    }
+
+    if (toggle) {
+        toggle.addEventListener('click', () => {
+            nav.classList.contains('open') ? closeNav() : openNav();
+        });
+    }
+
+    if (overlay) {
+        overlay.addEventListener('click', closeNav);
+    }
+
+    // Close nav on link click (mobile)
+    nav.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', closeNav);
+    });
+
+    // Close nav on Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && nav.classList.contains('open')) {
+            closeNav();
+        }
+    });
+
+
+    // ─── Header Scroll State ───
+    const header = document.querySelector('.site-header');
+    let lastScroll = 0;
+
+    function handleHeaderScroll() {
+        const currentScroll = window.scrollY;
+        if (currentScroll > 20) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+        lastScroll = currentScroll;
+    }
+
+    window.addEventListener('scroll', handleHeaderScroll, { passive: true });
+    handleHeaderScroll(); // run on load
+
+
+    // ─── Scroll-Reveal Animations ───
     const observerOptions = {
         root: null,
-        rootMargin: '0px',
-        threshold: 0.15
+        rootMargin: '0px 0px -60px 0px',
+        threshold: 0.1
     };
-    
-    const observer = new IntersectionObserver((entries, observer) => {
+
+    const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
-                // Optional: Stop observing once visible if we only want it to animate once
-                // observer.unobserve(entry.target);
+                observer.unobserve(entry.target);
             }
         });
     }, observerOptions);
-    
-    // Observe all elements with fade-in or fade-in-up classes
-    const animatedElements = document.querySelectorAll('.fade-in, .fade-in-up');
-    animatedElements.forEach(el => observer.observe(el));
-    
-    // Form submission handling (placeholder behavior)
+
+    document.querySelectorAll('.fade-in, .fade-in-up').forEach(el => {
+        observer.observe(el);
+    });
+
+
+    // ─── Form Handling (placeholder) ───
     const form = document.querySelector('.contact-form');
     if (form) {
         form.addEventListener('submit', (e) => {
-            // Because this is currently a placeholder Formspree endpoint, 
-            // we let the native behavior handle it unless further requested.
-            // A simple console log to verify interaction.
-            console.log('Form submission intercepted. Point to active Formspree endpoint.');
+            // Formspree endpoint is a placeholder — let native behavior handle it
+            console.log('Form submission — configure Formspree endpoint.');
         });
     }
 });
