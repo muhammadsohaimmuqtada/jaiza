@@ -4,13 +4,13 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-
     // ─── Mobile Navigation ───
     const toggle = document.getElementById('mobileToggle');
     const nav = document.getElementById('mainNav');
     const overlay = document.getElementById('navOverlay');
 
     function openNav() {
+        if (!nav || !overlay || !toggle) return;
         nav.classList.add('open');
         overlay.classList.add('active');
         toggle.classList.add('active');
@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function closeNav() {
+        if (!nav || !overlay || !toggle) return;
         nav.classList.remove('open');
         overlay.classList.remove('active');
         toggle.classList.remove('active');
@@ -26,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.style.overflow = '';
     }
 
-    if (toggle) {
+    if (toggle && nav) {
         toggle.addEventListener('click', () => {
             nav.classList.contains('open') ? closeNav() : openNav();
         });
@@ -36,46 +37,70 @@ document.addEventListener('DOMContentLoaded', () => {
         overlay.addEventListener('click', closeNav);
     }
 
-    // Close nav on link click (mobile)
-    nav.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', closeNav);
-    });
+    if (nav) {
+        nav.querySelectorAll('a').forEach((link) => {
+            link.addEventListener('click', closeNav);
+        });
+    }
 
-    // Close nav on Escape key
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && nav.classList.contains('open')) {
+        if (e.key === 'Escape' && nav && nav.classList.contains('open')) {
             closeNav();
         }
     });
 
-
     // ─── Header Scroll State ───
     const header = document.querySelector('.site-header');
-    let lastScroll = 0;
 
     function handleHeaderScroll() {
+        if (!header) return;
         const currentScroll = window.scrollY;
         if (currentScroll > 20) {
             header.classList.add('scrolled');
         } else {
             header.classList.remove('scrolled');
         }
-        lastScroll = currentScroll;
     }
 
     window.addEventListener('scroll', handleHeaderScroll, { passive: true });
-    handleHeaderScroll(); // run on load
+    handleHeaderScroll();
 
+    // ─── Active Nav Link on Scroll ───
+    const sectionLinks = document.querySelectorAll('.main-nav a[href^="#"]');
+    const sections = Array.from(sectionLinks)
+        .map((link) => document.querySelector(link.getAttribute('href')))
+        .filter(Boolean);
+
+    function setActiveLink() {
+        if (!sectionLinks.length || !sections.length) return;
+
+        const offset = window.scrollY + 140;
+        let activeId = sections[0].id;
+
+        sections.forEach((section) => {
+            if (section.offsetTop <= offset) {
+                activeId = section.id;
+            }
+        });
+
+        sectionLinks.forEach((link) => {
+            const matches = link.getAttribute('href') === `#${activeId}`;
+            link.classList.toggle('is-active', matches);
+        });
+    }
+
+    window.addEventListener('scroll', setActiveLink, { passive: true });
+    setActiveLink();
 
     // ─── Scroll-Reveal Animations ───
     const observerOptions = {
         root: null,
         rootMargin: '0px 0px -60px 0px',
-        threshold: 0.1
+        threshold: 0.12
     };
 
     const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
+        entries.forEach((entry) => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
                 observer.unobserve(entry.target);
@@ -83,16 +108,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }, observerOptions);
 
-    document.querySelectorAll('.fade-in, .fade-in-up').forEach(el => {
+    document.querySelectorAll('.fade-in, .fade-in-up').forEach((el) => {
         observer.observe(el);
     });
-
 
     // ─── Form Handling (placeholder) ───
     const form = document.querySelector('.contact-form');
     if (form) {
-        form.addEventListener('submit', (e) => {
-            // Formspree endpoint is a placeholder — let native behavior handle it
+        form.addEventListener('submit', () => {
             console.log('Form submission — configure Formspree endpoint.');
         });
     }
