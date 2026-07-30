@@ -7,10 +7,12 @@
     <meta name="description" content="AI Governance & Optimization Audits. We help you adopt AI the right way for your size and budget, make sure it's paying for itself, and keep it governed as your team grows.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+
     <header class="site-header">
         <div class="container header-container">
             <a href="#" class="brand-logo">Jaiza.</a>
@@ -22,43 +24,46 @@
                 </ul>
             </nav>
             <div class="nav-overlay" id="navOverlay"></div>
-            <a href="#contact" class="btn btn-outline-light">Book a call</a>
-            <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle navigation" aria-expanded="false">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
+            <div class="header-actions">
+                <a href="#contact" class="btn btn-outline-light">Book a call</a>
+                <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="mainNav">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
         </div>
     </header>
 
-    <main>
-        <!-- Hero Section -->
-        <section class="hero">
+    <main id="main-content">
+        <section class="hero section-padding">
             <div class="container hero-container">
                 <div class="hero-content fade-in-up">
                     <span class="eyebrow-mono">REF: AI GOVERNANCE & ADOPTION REVIEW</span>
                     <h1 class="hero-title">Is AI actually working for your company — or just running up a bill?</h1>
                     <p class="hero-subtitle">We help you adopt AI the right way for your size and budget, make sure it's paying for itself, and keep it governed as your team grows — without your data ending up somewhere it shouldn't.</p>
-                    <a href="#contact" class="btn btn-primary">Book a 15-minute call</a>
+                    <div class="hero-actions">
+                        <a href="#contact" class="btn btn-primary">Book a 15-minute call</a>
+                        <a href="#whatwedo" class="btn btn-ghost">See our process</a>
+                    </div>
                 </div>
-                <div class="hero-visual fade-in">
-                    <svg class="seal-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                        <circle cx="50" cy="50" r="48" fill="none" stroke="var(--accent-gold)" stroke-width="1"/>
-                        <circle cx="50" cy="50" r="42" fill="none" stroke="var(--accent-gold)" stroke-width="0.5" stroke-dasharray="2 2"/>
-                        <circle cx="50" cy="50" r="32" fill="none" stroke="var(--accent-gold)" stroke-width="1.5"/>
-                        <rect x="40" y="35" width="20" height="28" fill="none" stroke="var(--accent-gold)" stroke-width="1.5"/>
-                        <line x1="45" y1="42" x2="55" y2="42" stroke="var(--accent-gold)" stroke-width="1"/>
-                        <line x1="45" y1="48" x2="55" y2="48" stroke="var(--accent-gold)" stroke-width="1"/>
-                        <line x1="45" y1="54" x2="50" y2="54" stroke="var(--accent-gold)" stroke-width="1"/>
-                        <path d="M 50 10 L 50 5 M 50 90 L 50 95 M 10 50 L 5 50 M 90 50 L 95 50" stroke="var(--accent-gold)" stroke-width="1"/>
+                <div class="hero-visual fade-in" aria-hidden="true">
+                    <svg class="seal-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="50" cy="50" r="48" fill="none" stroke="var(--accent)" stroke-width="1"/>
+                        <circle cx="50" cy="50" r="42" fill="none" stroke="var(--accent)" stroke-width="0.5" stroke-dasharray="2 2"/>
+                        <circle cx="50" cy="50" r="32" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+                        <rect x="40" y="35" width="20" height="28" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+                        <line x1="45" y1="42" x2="55" y2="42" stroke="var(--accent)" stroke-width="1"/>
+                        <line x1="45" y1="48" x2="55" y2="48" stroke="var(--accent)" stroke-width="1"/>
+                        <line x1="45" y1="54" x2="50" y2="54" stroke="var(--accent)" stroke-width="1"/>
+                        <path d="M 50 10 L 50 5 M 50 90 L 50 95 M 10 50 L 5 50 M 90 50 L 95 50" stroke="var(--accent)" stroke-width="1"/>
                     </svg>
                 </div>
             </div>
         </section>
 
-        <!-- Section 1: The Problem -->
-        <section id="about" class="problem-section section-padding bg-light">
-            <div class="container">
+        <section id="about" class="problem-section section-padding">
+            <div class="container surface-panel">
                 <div class="grid-2 problem-grid fade-in-up">
                     <div class="problem-text">
                         <h2 class="section-title">Where most companies stand today.</h2>
@@ -87,36 +92,35 @@
             </div>
         </section>
 
-        <!-- Section 2: What We Do -->
         <section id="whatwedo" class="audit-section section-padding">
             <div class="container">
                 <header class="section-header fade-in-up">
                     <span class="eyebrow-mono">OUR APPROACH</span>
                     <h2 class="section-title">A complete path from adoption to governance.</h2>
                 </header>
-                
+
                 <div class="process-steps">
-                    <div class="step-card fade-in-up" style="transition-delay: 0.1s;">
+                    <div class="step-card fade-in-up">
                         <div class="step-number">01</div>
                         <h3 class="step-title">Assessment</h3>
                         <p>We map your company's size, team structure, and actual workflows, and identify every AI tool already in use, sanctioned or not — through interviews, expense records, and workflow review.</p>
                     </div>
-                    <div class="step-card fade-in-up" style="transition-delay: 0.15s;">
+                    <div class="step-card fade-in-up">
                         <div class="step-number">02</div>
                         <h3 class="step-title">Custom Adoption Plan</h3>
                         <p>Based on your team's real needs, we recommend the specific tools and tiers that fit — down to the role level. Where relevant, we also assess whether a locally hosted model, a rented GPU server, or a standard API-based plan is the better fit for your budget, data sensitivity, and technical capacity — vendor-neutral, based on what actually suits you rather than a fixed recommendation.</p>
                     </div>
-                    <div class="step-card fade-in-up" style="transition-delay: 0.2s;">
+                    <div class="step-card fade-in-up">
                         <div class="step-number">03</div>
                         <h3 class="step-title">ROI & Utilization Review</h3>
                         <p>For companies already on a paid or enterprise plan: we review whether your current AI spend matches actual usage and value. If you're paying for enterprise seats that sit idle, or a plan that costs more than the value it returns, we'll tell you plainly — including recommending you scale down, not just up.</p>
                     </div>
-                    <div class="step-card fade-in-up" style="transition-delay: 0.25s;">
+                    <div class="step-card fade-in-up">
                         <div class="step-number">04</div>
                         <h3 class="step-title">Governance & Data Protection</h3>
                         <p>We build a governance policy your team can realistically follow, and check that it's actually enforced — including catching cases where some employees have proper access but others are bypassing it entirely, whether by habit or oversight.</p>
                     </div>
-                    <div class="step-card fade-in-up" style="transition-delay: 0.3s;">
+                    <div class="step-card fade-in-up">
                         <div class="step-number">05</div>
                         <h3 class="step-title">Ongoing Review</h3>
                         <p>AI usage and tooling change constantly. We offer periodic re-checks to confirm your policy still holds, your tooling still fits, and no new exposure has appeared since your last review.</p>
@@ -125,9 +129,8 @@
             </div>
         </section>
 
-        <!-- Section 3: The Certificate -->
-        <section class="deliverable-section section-padding bg-light">
-            <div class="container">
+        <section class="deliverable-section section-padding">
+            <div class="container surface-panel">
                 <div class="deliverable-content grid-2 fade-in-up">
                     <div class="deliverable-text">
                         <span class="eyebrow-mono">THE CERTIFICATE</span>
@@ -140,16 +143,16 @@
                             <span class="mono-value">JZ-2024-8842-A</span>
                         </div>
                     </div>
-                    <div class="deliverable-visual">
-                        <svg class="seal-icon seal-small" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                            <circle cx="50" cy="50" r="48" fill="none" stroke="var(--accent-gold)" stroke-width="1"/>
-                            <circle cx="50" cy="50" r="42" fill="none" stroke="var(--accent-gold)" stroke-width="0.5" stroke-dasharray="2 2"/>
-                            <circle cx="50" cy="50" r="32" fill="none" stroke="var(--accent-gold)" stroke-width="1.5"/>
-                            <rect x="40" y="35" width="20" height="28" fill="none" stroke="var(--accent-gold)" stroke-width="1.5"/>
-                            <line x1="45" y1="42" x2="55" y2="42" stroke="var(--accent-gold)" stroke-width="1"/>
-                            <line x1="45" y1="48" x2="55" y2="48" stroke="var(--accent-gold)" stroke-width="1"/>
-                            <line x1="45" y1="54" x2="50" y2="54" stroke="var(--accent-gold)" stroke-width="1"/>
-                            <path d="M 50 10 L 50 5 M 50 90 L 50 95 M 10 50 L 5 50 M 90 50 L 95 50" stroke="var(--accent-gold)" stroke-width="1"/>
+                    <div class="deliverable-visual" aria-hidden="true">
+                        <svg class="seal-icon seal-small" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="50" cy="50" r="48" fill="none" stroke="var(--accent)" stroke-width="1"/>
+                            <circle cx="50" cy="50" r="42" fill="none" stroke="var(--accent)" stroke-width="0.5" stroke-dasharray="2 2"/>
+                            <circle cx="50" cy="50" r="32" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+                            <rect x="40" y="35" width="20" height="28" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+                            <line x1="45" y1="42" x2="55" y2="42" stroke="var(--accent)" stroke-width="1"/>
+                            <line x1="45" y1="48" x2="55" y2="48" stroke="var(--accent)" stroke-width="1"/>
+                            <line x1="45" y1="54" x2="50" y2="54" stroke="var(--accent)" stroke-width="1"/>
+                            <path d="M 50 10 L 50 5 M 50 90 L 50 95 M 10 50 L 5 50 M 90 50 L 95 50" stroke="var(--accent)" stroke-width="1"/>
                         </svg>
                         <div class="cert-mockup">
                             <div class="cert-line head"></div>
@@ -162,7 +165,6 @@
             </div>
         </section>
 
-        <!-- Section 4: Why Now -->
         <section class="trigger-section section-padding">
             <div class="container trigger-container fade-in-up">
                 <span class="eyebrow-mono">TIMING</span>
@@ -172,12 +174,11 @@
             </div>
         </section>
 
-        <!-- Section 5: Contact -->
         <section id="contact" class="contact-section section-padding dark-section">
             <div class="container contact-container fade-in-up">
                 <h2 class="section-title text-light">Schedule an initial consultation.</h2>
                 <p class="text-light-muted">Book a 15-minute introductory call to discuss your organization's current AI usage and determine which parts of the review are right for you.</p>
-                
+
                 <form class="contact-form" action="https://formspree.io/f/placeholder" method="POST">
                     <div class="form-group">
                         <label for="name">Name</label>
