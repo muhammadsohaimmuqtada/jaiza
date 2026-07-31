@@ -1,16 +1,14 @@
 /**
  * Jaiza | Interactions
- * Mobile menu, header scroll state, scroll-reveal animations
+ * Mobile nav, header state, reveals, phase tabs
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-    // ─── Mobile Navigation ───
     const toggle = document.getElementById('mobileToggle');
     const nav = document.getElementById('mainNav');
     const overlay = document.getElementById('navOverlay');
 
     function openNav() {
-        if (!nav || !overlay || !toggle) return;
         nav.classList.add('open');
         overlay.classList.add('active');
         toggle.classList.add('active');
@@ -19,7 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function closeNav() {
-        if (!nav || !overlay || !toggle) return;
         nav.classList.remove('open');
         overlay.classList.remove('active');
         toggle.classList.remove('active');
@@ -27,96 +24,96 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.style.overflow = '';
     }
 
-    if (toggle && nav) {
+    if (toggle) {
         toggle.addEventListener('click', () => {
             nav.classList.contains('open') ? closeNav() : openNav();
         });
     }
 
-    if (overlay) {
-        overlay.addEventListener('click', closeNav);
-    }
+    if (overlay) overlay.addEventListener('click', closeNav);
 
-    if (nav) {
-        nav.querySelectorAll('a').forEach((link) => {
-            link.addEventListener('click', closeNav);
-        });
-    }
+    nav?.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', closeNav);
+    });
 
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && nav && nav.classList.contains('open')) {
-            closeNav();
-        }
+        if (e.key === 'Escape' && nav?.classList.contains('open')) closeNav();
     });
 
-    // ─── Header Scroll State ───
+    // Header scroll
     const header = document.querySelector('.site-header');
-
-    function handleHeaderScroll() {
+    const onScroll = () => {
         if (!header) return;
-        const currentScroll = window.scrollY;
-        if (currentScroll > 20) {
-            header.classList.add('scrolled');
-        } else {
-            header.classList.remove('scrolled');
-        }
+        header.classList.toggle('scrolled', window.scrollY > 16);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    // Reveal on scroll
+    const revealEls = document.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (!entry.isIntersecting) return;
+                    entry.target.classList.add('is-visible');
+                    io.unobserve(entry.target);
+                });
+            },
+            { rootMargin: '0px 0px -8% 0px', threshold: 0.12 }
+        );
+        revealEls.forEach((el, i) => {
+            el.style.transitionDelay = `${Math.min(i % 4, 3) * 0.06}s`;
+            io.observe(el);
+        });
+    } else {
+        revealEls.forEach((el) => el.classList.add('is-visible'));
     }
 
-    window.addEventListener('scroll', handleHeaderScroll, { passive: true });
-    handleHeaderScroll();
-
-    // ─── Active Nav Link on Scroll ───
-    const sectionLinks = document.querySelectorAll('.main-nav a[href^="#"]');
-    const sections = Array.from(sectionLinks)
-        .map((link) => document.querySelector(link.getAttribute('href')))
-        .filter(Boolean);
-
-    function setActiveLink() {
-        if (!sectionLinks.length || !sections.length) return;
-
-        const offset = window.scrollY + 140;
-        let activeId = sections[0].id;
-
-        sections.forEach((section) => {
-            if (section.offsetTop <= offset) {
-                activeId = section.id;
-            }
-        });
-
-        sectionLinks.forEach((link) => {
-            const matches = link.getAttribute('href') === `#${activeId}`;
-            link.classList.toggle('is-active', matches);
-        });
-    }
-
-    window.addEventListener('scroll', setActiveLink, { passive: true });
-    setActiveLink();
-
-    // ─── Scroll-Reveal Animations ───
-    const observerOptions = {
-        root: null,
-        rootMargin: '0px 0px -60px 0px',
-        threshold: 0.12
+    // Phase tabs
+    const tabs = Array.from(document.querySelectorAll('.phase-tab'));
+    const panels = {
+        adopt: document.getElementById('panel-adopt'),
+        optimize: document.getElementById('panel-optimize'),
+        govern: document.getElementById('panel-govern'),
     };
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-                observer.unobserve(entry.target);
-            }
+    function activatePhase(key) {
+        tabs.forEach((tab) => {
+            const active = tab.dataset.phase === key;
+            tab.classList.toggle('is-active', active);
+            tab.setAttribute('aria-selected', active ? 'true' : 'false');
         });
-    }, observerOptions);
-
-    document.querySelectorAll('.fade-in, .fade-in-up').forEach((el) => {
-        observer.observe(el);
-    });
-
-    // ─── Form Handling (placeholder) ───
-    const form = document.querySelector('.contact-form');
-    if (form) {
-        form.addEventListener('submit', () => {
-            console.log('Form submission — configure Formspree endpoint.');
+        Object.entries(panels).forEach(([name, panel]) => {
+            if (!panel) return;
+            const show = name === key;
+            panel.classList.toggle('is-active', show);
+            panel.hidden = !show;
         });
     }
+
+    tabs.forEach((tab) => {
+        tab.addEventListener('click', () => activatePhase(tab.dataset.phase));
+        tab.addEventListener('keydown', (e) => {
+            const idx = tabs.indexOf(tab);
+            if (e.key === 'ArrowRight') {
+                e.preventDefault();
+                const next = tabs[(idx + 1) % tabs.length];
+                next.focus();
+                activatePhase(next.dataset.phase);
+            }
+            if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                const prev = tabs[(idx - 1 + tabs.length) % tabs.length];
+                prev.focus();
+                activatePhase(prev.dataset.phase);
+            }
+        });
+    });
+
+    // Form placeholder note
+    const form = document.querySelector('.contact-form');
+    form?.addEventListener('submit', () => {
+        console.log('Configure Formspree endpoint before going live.');
+    });
 });

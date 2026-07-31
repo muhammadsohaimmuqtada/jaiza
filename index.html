@@ -3,194 +3,343 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jaiza | AI Governance & Optimization Audits</title>
-    <meta name="description" content="AI Governance & Optimization Audits. We help you adopt AI the right way for your size and budget, make sure it's paying for itself, and keep it governed as your team grows.">
+    <title>Jaiza | AI Adoption, Optimization & Governance</title>
+    <meta name="description" content="Jaiza helps Pakistani MSMEs and enterprises adopt AI the right way, prove it is paying for itself, and keep company data inside controlled infrastructure — with enforcement when it matters.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <div class="ambient" aria-hidden="true">
+        <div class="ambient-orb ambient-orb-1"></div>
+        <div class="ambient-orb ambient-orb-2"></div>
+        <div class="ambient-grain"></div>
+    </div>
 
     <header class="site-header">
         <div class="container header-container">
-            <a href="#" class="brand-logo">Jaiza.</a>
+            <a href="#" class="brand-logo">Jaiza<span>.</span></a>
             <nav class="main-nav" id="mainNav" aria-label="Main navigation">
                 <ul>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#whatwedo">What We Do</a></li>
+                    <li><a href="#phases">Services</a></li>
+                    <li><a href="#approach">Approach</a></li>
+                    <li><a href="#control">Control</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
             </nav>
             <div class="nav-overlay" id="navOverlay"></div>
-            <div class="header-actions">
-                <a href="#contact" class="btn btn-outline-light">Book a call</a>
-                <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="mainNav">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
-            </div>
+            <a href="#contact" class="btn btn-outline-light header-cta">Book a call</a>
+            <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle navigation" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </div>
     </header>
 
-    <main id="main-content">
-        <section class="hero section-padding">
+    <main>
+        <section class="hero">
+            <div class="hero-plane" aria-hidden="true"></div>
             <div class="container hero-container">
-                <div class="hero-content fade-in-up">
-                    <span class="eyebrow-mono">REF: AI GOVERNANCE & ADOPTION REVIEW</span>
-                    <h1 class="hero-title">Is AI actually working for your company — or just running up a bill?</h1>
-                    <p class="hero-subtitle">We help you adopt AI the right way for your size and budget, make sure it's paying for itself, and keep it governed as your team grows — without your data ending up somewhere it shouldn't.</p>
+                <div class="hero-content reveal">
+                    <p class="brand-mark">Jaiza</p>
+                    <h1 class="hero-title">Move your company onto AI — then keep it profitable and under control.</h1>
+                    <p class="hero-subtitle">We help Pakistani MSMEs and enterprises adopt AI for their real workflows, prove the spend is worth it, and stop sensitive data from leaving through the wrong tools.</p>
                     <div class="hero-actions">
                         <a href="#contact" class="btn btn-primary">Book a 15-minute call</a>
-                        <a href="#whatwedo" class="btn btn-ghost">See our process</a>
-                    </div>
-                </div>
-                <div class="hero-visual fade-in" aria-hidden="true">
-                    <svg class="seal-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="50" cy="50" r="48" fill="none" stroke="var(--accent)" stroke-width="1"/>
-                        <circle cx="50" cy="50" r="42" fill="none" stroke="var(--accent)" stroke-width="0.5" stroke-dasharray="2 2"/>
-                        <circle cx="50" cy="50" r="32" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
-                        <rect x="40" y="35" width="20" height="28" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
-                        <line x1="45" y1="42" x2="55" y2="42" stroke="var(--accent)" stroke-width="1"/>
-                        <line x1="45" y1="48" x2="55" y2="48" stroke="var(--accent)" stroke-width="1"/>
-                        <line x1="45" y1="54" x2="50" y2="54" stroke="var(--accent)" stroke-width="1"/>
-                        <path d="M 50 10 L 50 5 M 50 90 L 50 95 M 10 50 L 5 50 M 90 50 L 95 50" stroke="var(--accent)" stroke-width="1"/>
-                    </svg>
-                </div>
-            </div>
-        </section>
-
-        <section id="about" class="problem-section section-padding">
-            <div class="container surface-panel">
-                <div class="grid-2 problem-grid fade-in-up">
-                    <div class="problem-text">
-                        <h2 class="section-title">Where most companies stand today.</h2>
-                        <p>AI adoption in most companies happens in one of two ways: either nobody has a plan, and employees pick their own tools with no policy behind it — or the company bought an enterprise plan without a clear picture of who actually needs it, for what, leaving expensive seats unused and no measurable return.</p>
-                        <p>Both paths create the same two outcomes: money spent without a clear benefit, and company or client data handled by tools nobody properly reviewed.</p>
-                    </div>
-                    <div class="problem-stats">
-                        <div class="stat-card">
-                            <span class="stat-mono">01 / SHADOW AI</span>
-                            <p>Employees using personal AI accounts for work, with no policy or visibility into what's actually happening.</p>
-                        </div>
-                        <div class="stat-card">
-                            <span class="stat-mono">02 / DATA EXPOSURE</span>
-                            <p>Company or client data processed by tools with no enterprise agreement or clear retention terms — including cases where most of a team has approved access, but one or two employees don't, and route sensitive data through personal accounts instead.</p>
-                        </div>
-                        <div class="stat-card">
-                            <span class="stat-mono">03 / UNCLEAR ROI</span>
-                            <p>AI spend that isn't tied to any measurable benefit — sometimes costing more than the value it returns.</p>
-                        </div>
-                        <div class="stat-card">
-                            <span class="stat-mono">04 / NO GOVERNANCE PLAN</span>
-                            <p>No process for reviewing, updating, or enforcing AI policy as the team and tool landscape change.</p>
-                        </div>
+                        <a href="#phases" class="btn btn-ghost">See how it works</a>
                     </div>
                 </div>
             </div>
+            <div class="hero-rail" aria-hidden="true">
+                <span>ADOPTION</span>
+                <span class="rail-dot"></span>
+                <span>OPTIMIZATION</span>
+                <span class="rail-dot"></span>
+                <span>GOVERNANCE</span>
+            </div>
         </section>
 
-        <section id="whatwedo" class="audit-section section-padding">
+        <section class=" cred-strip">
+            <div class="container cred-strip-inner reveal">
+                <p>Built for companies that cannot afford guesswork — from small teams to multi-department enterprises.</p>
+                <ul class="cred-list">
+                    <li>MSME</li>
+                    <li>Mid-market</li>
+                    <li>Enterprise</li>
+                    <li>Export / foreign clients</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="phases" class="phases-section section-padding">
             <div class="container">
-                <header class="section-header fade-in-up">
-                    <span class="eyebrow-mono">OUR APPROACH</span>
-                    <h2 class="section-title">A complete path from adoption to governance.</h2>
+                <header class="section-header reveal">
+                    <span class="eyebrow-mono">THREE ENGAGEMENT PHASES</span>
+                    <h2 class="section-title">Wherever you are with AI, we start there.</h2>
+                    <p class="section-lead">Most companies are stuck in one of three places: not adopted yet, adopted but bleeding cost, or adopted without control. Jaiza covers all three — as a continuous path, not a one-off checklist.</p>
                 </header>
 
-                <div class="process-steps">
-                    <div class="step-card fade-in-up">
-                        <div class="step-number">01</div>
-                        <h3 class="step-title">Assessment</h3>
-                        <p>We map your company's size, team structure, and actual workflows, and identify every AI tool already in use, sanctioned or not — through interviews, expense records, and workflow review.</p>
-                    </div>
-                    <div class="step-card fade-in-up">
-                        <div class="step-number">02</div>
-                        <h3 class="step-title">Custom Adoption Plan</h3>
-                        <p>Based on your team's real needs, we recommend the specific tools and tiers that fit — down to the role level. Where relevant, we also assess whether a locally hosted model, a rented GPU server, or a standard API-based plan is the better fit for your budget, data sensitivity, and technical capacity — vendor-neutral, based on what actually suits you rather than a fixed recommendation.</p>
-                    </div>
-                    <div class="step-card fade-in-up">
-                        <div class="step-number">03</div>
-                        <h3 class="step-title">ROI & Utilization Review</h3>
-                        <p>For companies already on a paid or enterprise plan: we review whether your current AI spend matches actual usage and value. If you're paying for enterprise seats that sit idle, or a plan that costs more than the value it returns, we'll tell you plainly — including recommending you scale down, not just up.</p>
-                    </div>
-                    <div class="step-card fade-in-up">
-                        <div class="step-number">04</div>
-                        <h3 class="step-title">Governance & Data Protection</h3>
-                        <p>We build a governance policy your team can realistically follow, and check that it's actually enforced — including catching cases where some employees have proper access but others are bypassing it entirely, whether by habit or oversight.</p>
-                    </div>
-                    <div class="step-card fade-in-up">
-                        <div class="step-number">05</div>
-                        <h3 class="step-title">Ongoing Review</h3>
-                        <p>AI usage and tooling change constantly. We offer periodic re-checks to confirm your policy still holds, your tooling still fits, and no new exposure has appeared since your last review.</p>
-                    </div>
+                <div class="phase-tabs" role="tablist" aria-label="Service phases">
+                    <button class="phase-tab is-active" role="tab" aria-selected="true" data-phase="adopt" id="tab-adopt">01 · Adoption</button>
+                    <button class="phase-tab" role="tab" aria-selected="false" data-phase="optimize" id="tab-optimize">02 · Optimization</button>
+                    <button class="phase-tab" role="tab" aria-selected="false" data-phase="govern" id="tab-govern">03 · Governance</button>
+                </div>
+
+                <div class="phase-panels">
+                    <article class="phase-panel is-active" id="panel-adopt" role="tabpanel" aria-labelledby="tab-adopt">
+                        <div class="phase-panel-grid">
+                            <div>
+                                <h3>AI adoption &amp; mitigation</h3>
+                                <p>If your team has not fully moved to AI — or has done it chaotically — we map the business first, then design a transfer plan that fits your size, budget, data sensitivity, and technical capacity.</p>
+                                <p>We do not push a single vendor. We decide, with you, whether the right path is an enterprise SaaS plan, API usage, a rented GPU/server running your own models, or hardware you own and operate locally.</p>
+                            </div>
+                            <ul class="phase-points">
+                                <li>
+                                    <span class="point-label">Work &amp; role audit</span>
+                                    <span>Map departments, job types, and daily workflows so tooling matches how people actually work — not a generic seat count.</span>
+                                </li>
+                                <li>
+                                    <span class="point-label">Tool &amp; stack fit</span>
+                                    <span>Recommend the right tier and architecture: ChatGPT/Claude enterprise, Microsoft Copilot, Gemini, API-based builds, or self-hosted models.</span>
+                                </li>
+                                <li>
+                                    <span class="point-label">Infrastructure options</span>
+                                    <span>Evaluate local hardware, third-party GPU servers, private model hosting, and how each integrates into your existing systems.</span>
+                                </li>
+                                <li>
+                                    <span class="point-label">Rollout &amp; enablement</span>
+                                    <span>Phased rollout by team, access rules, training, and integration into the tools you already use — so adoption sticks.</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </article>
+
+                    <article class="phase-panel" id="panel-optimize" role="tabpanel" aria-labelledby="tab-optimize" hidden>
+                        <div class="phase-panel-grid">
+                            <div>
+                                <h3>ROI &amp; optimization audit</h3>
+                                <p>If you are already on AI, we pressure-test whether the plan and infrastructure are actually working in your favour. An AI bill that outruns the value it creates is not a transformation — it is a leak.</p>
+                                <p>You get a clear report: what is paying off, what is idle, what should be scaled down, consolidated, or re-architected — including when the honest recommendation is to spend less.</p>
+                            </div>
+                            <ul class="phase-points">
+                                <li>
+                                    <span class="point-label">Utilization review</span>
+                                    <span>Which seats, APIs, and models are used — and which are paid for but idle.</span>
+                                </li>
+                                <li>
+                                    <span class="point-label">Cost vs. value</span>
+                                    <span>Tie spend to measurable outcomes: hours saved, throughput, revenue impact, error reduction.</span>
+                                </li>
+                                <li>
+                                    <span class="point-label">Architecture tuning</span>
+                                    <span>Right-size models and routes — expensive models only where they earn it; cheaper or local options everywhere else.</span>
+                                </li>
+                                <li>
+                                    <span class="point-label">Profit-first recommendations</span>
+                                    <span>Concrete changes to cut waste and increase return, with a before/after cost picture.</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </article>
+
+                    <article class="phase-panel" id="panel-govern" role="tabpanel" aria-labelledby="tab-govern" hidden>
+                        <div class="phase-panel-grid">
+                            <div>
+                                <h3>Governance &amp; data control</h3>
+                                <p>Even a well-chosen enterprise plan fails if one employee pastes client data into a personal account. We audit how data actually moves, review vendor privacy terms, and put enforcement in front of the problem — not just a PDF policy on a shelf.</p>
+                                <p>Where needed, we help install a control layer: traffic that tries to leave with critical data outside your approved enterprise path can be blocked or redirected.</p>
+                            </div>
+                            <ul class="phase-points">
+                                <li>
+                                    <span class="point-label">Shadow AI discovery</span>
+                                    <span>Find personal accounts, unmanaged tools, and gaps where approved access exists but is not used.</span>
+                                </li>
+                                <li>
+                                    <span class="point-label">Vendor &amp; privacy review</span>
+                                    <span>Check retention, training use of data, and contractual terms on every AI service in play.</span>
+                                </li>
+                                <li>
+                                    <span class="point-label">Policy that people follow</span>
+                                    <span>Practical rules by role, with enforcement and periodic re-checks as tools and teams change.</span>
+                                </li>
+                                <li>
+                                    <span class="point-label">Enforcement proxy</span>
+                                    <span>Route AI traffic through controlled infrastructure. Critical data leaving outside the enterprise path can be dropped.</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </article>
                 </div>
             </div>
         </section>
 
-        <section class="deliverable-section section-padding">
-            <div class="container surface-panel">
-                <div class="deliverable-content grid-2 fade-in-up">
-                    <div class="deliverable-text">
-                        <span class="eyebrow-mono">THE CERTIFICATE</span>
-                        <h2 class="section-title">Documentation, when you need it.</h2>
-                        <p>Pakistan does not yet have a comprehensive, enacted data protection law — the Personal Data Protection Bill remains in draft, and the Prevention of Electronic Crimes Act (PECA) 2016, amended in 2025, addresses data misuse as a criminal matter rather than a full privacy framework. That means most Pakistani companies are not legally required, today, to prove how they handle AI and data.</p>
-                        <p>Foreign clients are a different story. A growing number of businesses in the US, UK, and Gulf region require vendors to formally attest to how client data is handled — including whether it passes through AI tools, and under what terms. If your clients (or their regulators) require this kind of attestation, we provide a formal certificate of review documenting your audit and current governance status.</p>
-                        <p>If your business doesn't yet face that requirement, we still recommend building good data-handling habits now — both because Pakistani law is expected to catch up eventually, and because it protects you regardless of what any regulator requires.</p>
-                        <div class="cert-reference">
-                            <span class="mono-label">SAMPLE REF:</span>
-                            <span class="mono-value">JZ-2024-8842-A</span>
+        <section id="approach" class="approach-section section-padding">
+            <div class="container">
+                <header class="section-header reveal">
+                    <span class="eyebrow-mono">HOW ADOPTION WORKS</span>
+                    <h2 class="section-title">We transfer the structure — not just buy seats.</h2>
+                    <p class="section-lead">Moving a company onto AI means more than a subscription. We cover the full mitigation path: people, process, tooling, and infrastructure.</p>
+                </header>
+
+                <ol class="approach-timeline">
+                    <li class="reveal">
+                        <span class="timeline-num">01</span>
+                        <div>
+                            <h3>Discover the real company</h3>
+                            <p>Interviews, org structure, expense lines, and workflow walkthroughs. We document what each role does day to day — and every AI tool already in use, sanctioned or not.</p>
                         </div>
-                    </div>
-                    <div class="deliverable-visual" aria-hidden="true">
-                        <svg class="seal-icon seal-small" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="50" cy="50" r="48" fill="none" stroke="var(--accent)" stroke-width="1"/>
-                            <circle cx="50" cy="50" r="42" fill="none" stroke="var(--accent)" stroke-width="0.5" stroke-dasharray="2 2"/>
-                            <circle cx="50" cy="50" r="32" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
-                            <rect x="40" y="35" width="20" height="28" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
-                            <line x1="45" y1="42" x2="55" y2="42" stroke="var(--accent)" stroke-width="1"/>
-                            <line x1="45" y1="48" x2="55" y2="48" stroke="var(--accent)" stroke-width="1"/>
-                            <line x1="45" y1="54" x2="50" y2="54" stroke="var(--accent)" stroke-width="1"/>
-                            <path d="M 50 10 L 50 5 M 50 90 L 50 95 M 10 50 L 5 50 M 90 50 L 95 50" stroke="var(--accent)" stroke-width="1"/>
-                        </svg>
-                        <div class="cert-mockup">
-                            <div class="cert-line head"></div>
-                            <div class="cert-line"></div>
-                            <div class="cert-line"></div>
-                            <div class="cert-line short"></div>
+                    </li>
+                    <li class="reveal">
+                        <span class="timeline-num">02</span>
+                        <div>
+                            <h3>Design the mitigation plan</h3>
+                            <p>Role-level recommendations: who needs what, at which tier, and why. Include change risks, training needs, and a phased sequence so the business keeps running while you migrate.</p>
                         </div>
+                    </li>
+                    <li class="reveal">
+                        <span class="timeline-num">03</span>
+                        <div>
+                            <h3>Choose the right infrastructure</h3>
+                            <p>Enterprise SaaS, API builds, rented GPU/server capacity, or owned hardware with models you control. Vendor-neutral — picked for budget, sensitivity, and your team’s ability to operate it.</p>
+                        </div>
+                    </li>
+                    <li class="reveal">
+                        <span class="timeline-num">04</span>
+                        <div>
+                            <h3>Integrate &amp; enable</h3>
+                            <p>Connect AI into your existing stack where it creates leverage, set access correctly, train teams, and confirm usage is real — not a license sitting unused.</p>
+                        </div>
+                    </li>
+                    <li class="reveal">
+                        <span class="timeline-num">05</span>
+                        <div>
+                            <h3>Measure, then lock down</h3>
+                            <p>Confirm the plan is returning value. Then harden governance: policy, vendor terms, shadow-AI checks, and enforcement so the gains do not create new exposure.</p>
+                        </div>
+                    </li>
+                </ol>
+            </div>
+        </section>
+
+        <section id="control" class="control-section section-padding">
+            <div class="container control-grid reveal">
+                <div class="control-copy">
+                    <span class="eyebrow-mono">THE CONTROL LAYER</span>
+                    <h2 class="section-title">Policy without enforcement is theatre.</h2>
+                    <p>Having an enterprise plan does not mean every employee is using it. One personal ChatGPT session with a client file is enough to break the promise you made to a foreign buyer — or to yourself.</p>
+                    <p>Jaiza identifies those gaps and, where appropriate, helps you put a proxy in front of AI traffic: if something critical tries to leave your approved path, it does not leave.</p>
+                    <ul class="control-list">
+                        <li>Detect personal accounts and unmanaged tools</li>
+                        <li>Review privacy &amp; retention terms on every vendor</li>
+                        <li>Block or redirect sensitive outbound AI traffic</li>
+                        <li>Re-check as teams and tools change</li>
+                    </ul>
+                </div>
+                <aside class="control-visual" aria-hidden="true">
+                    <div class="flow-card">
+                        <div class="flow-row ok">
+                            <span class="flow-src">Employee · approved path</span>
+                            <span class="flow-arrow">→</span>
+                            <span class="flow-dst">Enterprise AI</span>
+                            <span class="flow-status">Allowed</span>
+                        </div>
+                        <div class="flow-row block">
+                            <span class="flow-src">Employee · personal account</span>
+                            <span class="flow-arrow">→</span>
+                            <span class="flow-dst">Consumer AI</span>
+                            <span class="flow-status">Dropped</span>
+                        </div>
+                        <div class="flow-row block">
+                            <span class="flow-src">Critical client data</span>
+                            <span class="flow-arrow">→</span>
+                            <span class="flow-dst">Unvetted tool</span>
+                            <span class="flow-status">Dropped</span>
+                        </div>
+                        <p class="flow-caption">REF · JZ-CONTROL-LAYER</p>
                     </div>
+                </aside>
+            </div>
+        </section>
+
+        <section class="market-section section-padding">
+            <div class="container market-grid reveal">
+                <div>
+                    <span class="eyebrow-mono">PAKISTAN FOCUS</span>
+                    <h2 class="section-title">Local reality. Export-grade expectations.</h2>
+                    <p>Pakistan’s formal data-protection framework is still catching up. Many companies are not yet forced by local law to prove how AI handles data — but US, UK, and Gulf clients increasingly are. Vendor questionnaires now ask how their information interacts with language models.</p>
+                    <p>We build the habits and controls now: adoption that fits Pakistani cost structures, optimization that protects thin margins, and governance you can show a foreign client when they ask.</p>
+                </div>
+                <div class="market-note">
+                    <span class="mono-label">WHEN YOU NEED PROOF</span>
+                    <p>If a client or regulator requires attestation, we can issue a formal certificate of review documenting your audit and current governance status — sample ref <strong>JZ-2026-8842-A</strong>.</p>
+                    <p class="market-note-sub">If you do not face that requirement yet, the same work still protects you: less waste, less exposure, clearer control.</p>
                 </div>
             </div>
         </section>
 
-        <section class="trigger-section section-padding">
-            <div class="container trigger-container fade-in-up">
-                <span class="eyebrow-mono">TIMING</span>
-                <h2 class="section-title">Why now.</h2>
-                <p>Foreign enterprises are increasingly updating vendor security questionnaires to include AI data-handling requirements, and a growing number explicitly ask how client data interacts with external language models. At the same time, AI tool costs are rising, and companies that adopted quickly without a plan are starting to ask whether the spend is actually paying off.</p>
-                <p>Both problems point to the same fix: a clear, honest picture of what you're using, what it's costing you, and what it's exposing — and a plan to fix all three.</p>
+        <section class="outcomes-section section-padding">
+            <div class="container">
+                <header class="section-header reveal">
+                    <span class="eyebrow-mono">WHAT YOU WALK AWAY WITH</span>
+                    <h2 class="section-title">Clarity you can act on.</h2>
+                </header>
+                <div class="outcomes-grid">
+                    <article class="outcome reveal">
+                        <span class="outcome-num">01</span>
+                        <h3>Adoption blueprint</h3>
+                        <p>Role-level tooling and infrastructure plan — SaaS, API, rented capacity, or owned hardware — sequenced for your team.</p>
+                    </article>
+                    <article class="outcome reveal">
+                        <span class="outcome-num">02</span>
+                        <h3>ROI &amp; cost report</h3>
+                        <p>What your AI spend is returning, what is idle, and exactly how to cut waste or reinvest for more profit.</p>
+                    </article>
+                    <article class="outcome reveal">
+                        <span class="outcome-num">03</span>
+                        <h3>Governance pack</h3>
+                        <p>Usable policy, vendor findings, shadow-AI gaps, and — where needed — an enforcement path for critical data.</p>
+                    </article>
+                    <article class="outcome reveal">
+                        <span class="outcome-num">04</span>
+                        <h3>Optional certificate</h3>
+                        <p>Formal review documentation when foreign clients or partners need proof of how you handle AI and data.</p>
+                    </article>
+                </div>
             </div>
         </section>
 
-        <section id="contact" class="contact-section section-padding dark-section">
-            <div class="container contact-container fade-in-up">
-                <h2 class="section-title text-light">Schedule an initial consultation.</h2>
-                <p class="text-light-muted">Book a 15-minute introductory call to discuss your organization's current AI usage and determine which parts of the review are right for you.</p>
+        <section id="contact" class="contact-section section-padding">
+            <div class="container contact-container reveal">
+                <span class="eyebrow-mono eyebrow-on-dark">NEXT STEP</span>
+                <h2 class="section-title">Tell us where you are. We’ll tell you what to fix first.</h2>
+                <p class="contact-lead">Fifteen minutes. No pitch deck theatre — a straight read on whether you need adoption, optimization, governance, or all three.</p>
 
                 <form class="contact-form" action="https://formspree.io/f/placeholder" method="POST">
-                    <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" id="name" name="name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Work Email</label>
-                        <input type="email" id="email" name="email" required>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" name="name" required autocomplete="name">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Work email</label>
+                            <input type="email" id="email" name="email" required autocomplete="email">
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="company">Company</label>
-                        <input type="text" id="company" name="company" required>
+                        <input type="text" id="company" name="company" required autocomplete="organization">
+                    </div>
+                    <div class="form-group">
+                        <label for="stage">Where are you today?</label>
+                        <select id="stage" name="stage" required>
+                            <option value="" disabled selected>Select one</option>
+                            <option value="not-adopted">Not fully on AI yet — need adoption / mitigation</option>
+                            <option value="adopted-unclear-roi">On AI, but unsure if it is paying off</option>
+                            <option value="need-governance">On AI, need governance &amp; data control</option>
+                            <option value="all">All of the above / not sure</option>
+                        </select>
                     </div>
                     <button type="submit" class="btn btn-primary btn-block">Book a 15-minute call</button>
                 </form>
@@ -201,10 +350,11 @@
     <footer class="site-footer">
         <div class="container footer-container">
             <div class="footer-brand">
-                <span class="footer-logo">Jaiza.</span>
-                <span class="footer-tagline">AI Governance & Optimization Audits</span>
+                <span class="footer-logo">Jaiza<span>.</span></span>
+                <span class="footer-tagline">AI adoption · optimization · governance</span>
             </div>
-            <div class="footer-contact">
+            <div class="footer-meta">
+                <span>Pakistan · serving MSME to enterprise</span>
                 <a href="mailto:contact@jaiza.com">contact@jaiza.com</a>
             </div>
         </div>
