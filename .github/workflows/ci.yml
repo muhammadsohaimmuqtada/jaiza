@@ -1,0 +1,30 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate static assets
+        run: |
+          python - <<'PY'
+          import json, pathlib, re, sys
+          root = pathlib.Path(".")
+          json.loads((root / "payload.json").read_text(encoding="utf-8"))
+          html = (root / "index.html").read_text(encoding="utf-8")
+          refs = set(re.findall(r'(?:src|href)="([^"]+)"', html))
+          missing = [
+              r for r in refs
+              if not r.startswith(("http://", "https://", "#", "mailto:", "tel:"))
+              and not (root / r).exists()
+          ]
+          if missing:
+              print("Missing local references:", sorted(missing))
+              sys.exit(1)
+          print("OK")
+          PY
