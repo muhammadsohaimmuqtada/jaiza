@@ -10,21 +10,55 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Validate static assets
+      - name: Validate static site
         run: |
           python - <<'PY'
-          import json, pathlib, re, sys
+          import pathlib, re, sys
+          from html.parser import HTMLParser
+
           root = pathlib.Path(".")
-          json.loads((root / "payload.json").read_text(encoding="utf-8"))
           html = (root / "index.html").read_text(encoding="utf-8")
+
+          VOID = {"area","base","br","col","embed","hr","img","input","link","meta","source","track","wbr"}
+
+          class Checker(HTMLParser):
+              def __init__(self):
+                  super().__init__(convert_charrefs=True)
+                  self.stack = []
+                  self.errors = []
+              def handle_starttag(self, tag, attrs):
+                  if tag not in VOID:
+                      self.stack.append(tag)
+              def handle_endtag(self, tag):
+                  if tag in VOID:
+                      return
+                  if not self.stack:
+                      self.errors.append(f"unexpected closing </{tag}>")
+                  elif self.stack[-1] == tag:
+                      self.stack.pop()
+                  else:
+                      self.errors.append(f"mismatched </{tag}>, open stack top: {self.stack[-1] if self.stack else None}")
+
+          c = Checker()
+          c.feed(html)
+          c.close()
+          if c.stack:
+              c.errors.append(f"unclosed tags: {c.stack}")
+          if c.errors:
+              print("HTML errors:", c.errors)
+              sys.exit(1)
+
           refs = set(re.findall(r'(?:src|href)="([^"]+)"', html))
-          missing = [
-              r for r in refs
-              if not r.startswith(("http://", "https://", "#", "mailto:", "tel:"))
-              and not (root / r).exists()
-          ]
+          local = [r for r in refs if not r.startswith(("http://", "https://", "#", "mailto:", "tel:", "data:"))]
+          missing = [r for r in local if not (root / r).exists()]
           if missing:
               print("Missing local references:", sorted(missing))
               sys.exit(1)
+
+          for required in ("index.html", "styles.css", "script.js"):
+              if not (root / required).exists():
+                  print(f"Missing required file: {required}")
+                  sys.exit(1)
+
           print("OK")
           PY

@@ -1,30 +1,22 @@
 # Jaiza
 
-Jaiza is an AI adoption, optimization, and governance initiative focused on helping companies use AI without losing control of cost, sensitive data, or operational risk.
+Jaiza runs **one fixed-fee, 10-day AI audit** for companies that cannot afford guesswork — from Pakistani MSMEs to multi-department enterprises with foreign clients.
 
-The current repository contains the public Jaiza website and supporting front-end assets.
+The audit ends in **two documents**:
 
-## What Jaiza focuses on
+1. **The ledger** — a line-by-line map of AI spend (seats, API tokens, subscriptions, infrastructure) with exact cuts, ranked by amount. Built for the CFO.
+2. **The certificate of review** — a signed attestation of how AI and data are handled inside the company, built for US / UK / Gulf vendor questionnaires, cyber-insurance underwriters, and enterprise RFPs.
 
-### AI adoption
+## What the audit covers
 
-Map real workflows and decide where AI is useful before choosing tools or buying seats. The goal is to match teams with an appropriate mix of enterprise SaaS, APIs, hosted infrastructure, or locally controlled models.
+- Subscriptions & seats — utilization per team, idle licenses
+- API keys & tokens — spend per model and project, routing recommendations
+- Shadow tools & vendor terms — unsanctioned tools, retention / training / contractual review
+- Network flows & egress — what leaves the network, and where sensitive data is at risk
 
-### Optimization
+## Method
 
-Review whether existing AI spend is creating measurable value. This includes utilization, cost, workflow impact, model selection, and opportunities to consolidate or reduce unnecessary spend.
-
-### Governance and data control
-
-Identify unmanaged AI use, review vendor/privacy exposure, define practical role-based rules, and design controlled paths for sensitive AI usage where needed.
-
-## Current service model
-
-Jaiza is organized around three engagement phases:
-
-1. **Adoption** — workflow discovery, tool selection, rollout planning, and enablement
-2. **Optimization** — utilization review, cost/value analysis, and architecture tuning
-3. **Governance** — shadow-AI discovery, vendor/privacy review, policy, and technical controls
+Three movements, ten days: **Discover** (interviews, expense lines, network flows) → **Assess** (cost reconciliation + vendor terms) → **Deliver** (ledger + certificate + prioritized remediation plan).
 
 ## Repository structure
 
@@ -33,33 +25,29 @@ jaiza/
 ├── index.html
 ├── styles.css
 ├── script.js
-├── payload.js
-├── payload.json
-└── README.md
+├── .github/workflows/ci.yml
+├── README.md
+├── LICENSE
+└── SECURITY.md
 ```
 
-The current site is intentionally lightweight and uses plain HTML, CSS, and JavaScript.
+The site is intentionally lightweight: plain HTML, CSS, and JavaScript — no build step. The contact form works without a backend: it validates input and opens a pre-filled `mailto:` to contact@jaiza.com.
 
 ## Website
 
 Public site: https://jaiza-chi.vercel.app/
 
-## Positioning
+## Development
 
-Jaiza is being developed around a practical question: how can an organization adopt AI fast enough to benefit from it while still knowing where its data goes, what the tooling costs, and whether the deployment is actually producing value?
+Open `index.html` directly, or serve locally:
 
-The project is especially oriented toward Pakistani MSMEs, mid-market companies, and enterprise teams that need pragmatic adoption and governance rather than generic AI strategy.
+```sh
+python3 -m http.server 8000
+# → http://127.0.0.1:8000
+```
 
-## Current development areas
-
-- AI-utilization assessment
-- shadow-AI discovery methods
-- vendor and privacy review
-- cost and ROI analysis
-- enterprise AI routing and control concepts
-- role-based AI-use policy
-- implementation guidance for approved AI workflows
+CI validates that the HTML parses, all local asset references exist, and the required files are present.
 
 ## Status
 
-Jaiza is under active development. The website and engagement model will continue to evolve as the assessment methodology, technical controls, and operating model mature.
+Jaiza is under active development. The engagement model and site will evolve as the methodology matures.

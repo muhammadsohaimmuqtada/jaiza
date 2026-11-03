@@ -1,9 +1,12 @@
 /**
- * Jaiza | Interactions
- * Mobile nav, header state, reveals, phase tabs
+ * Jaiza | The AI Audit
+ * Mobile nav, header state, scroll reveals, contact form (mailto, no backend)
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+    'use strict';
+
+    /* ---------- mobile nav ---------- */
     const toggle = document.getElementById('mobileToggle');
     const nav = document.getElementById('mainNav');
     const overlay = document.getElementById('navOverlay');
@@ -24,32 +27,27 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.style.overflow = '';
     }
 
-    if (toggle) {
+    if (toggle && nav && overlay) {
         toggle.addEventListener('click', () => {
             nav.classList.contains('open') ? closeNav() : openNav();
         });
+        overlay.addEventListener('click', closeNav);
+        nav.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeNav));
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && nav.classList.contains('open')) closeNav();
+        });
     }
 
-    if (overlay) overlay.addEventListener('click', closeNav);
-
-    nav?.querySelectorAll('a').forEach((link) => {
-        link.addEventListener('click', closeNav);
-    });
-
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && nav?.classList.contains('open')) closeNav();
-    });
-
-    // Header scroll
-    const header = document.querySelector('.site-header');
+    /* ---------- header scroll state ---------- */
+    const header = document.getElementById('siteHeader');
     const onScroll = () => {
         if (!header) return;
-        header.classList.toggle('scrolled', window.scrollY > 16);
+        header.classList.toggle('scrolled', window.scrollY > 8);
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
 
-    // Reveal on scroll
+    /* ---------- reveal on scroll ---------- */
     const revealEls = document.querySelectorAll('.reveal');
     if ('IntersectionObserver' in window) {
         const io = new IntersectionObserver(
@@ -60,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     io.unobserve(entry.target);
                 });
             },
-            { rootMargin: '0px 0px -8% 0px', threshold: 0.12 }
+            { rootMargin: '0px 0px -8% 0px', threshold: 0.1 }
         );
         revealEls.forEach((el, i) => {
             el.style.transitionDelay = `${Math.min(i % 4, 3) * 0.06}s`;
@@ -70,50 +68,83 @@ document.addEventListener('DOMContentLoaded', () => {
         revealEls.forEach((el) => el.classList.add('is-visible'));
     }
 
-    // Phase tabs
-    const tabs = Array.from(document.querySelectorAll('.phase-tab'));
-    const panels = {
-        adopt: document.getElementById('panel-adopt'),
-        optimize: document.getElementById('panel-optimize'),
-        govern: document.getElementById('panel-govern'),
-    };
+    /* ---------- contact form ---------- */
+    const form = document.getElementById('contactForm');
+    const success = document.getElementById('formSuccess');
+    const formError = document.getElementById('formError');
+    const sendAnother = document.getElementById('sendAnother');
 
-    function activatePhase(key) {
-        tabs.forEach((tab) => {
-            const active = tab.dataset.phase === key;
-            tab.classList.toggle('is-active', active);
-            tab.setAttribute('aria-selected', active ? 'true' : 'false');
-        });
-        Object.entries(panels).forEach(([name, panel]) => {
-            if (!panel) return;
-            const show = name === key;
-            panel.classList.toggle('is-active', show);
-            panel.hidden = !show;
-        });
+    const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+    function fieldOf(id) {
+        return document.getElementById(id);
     }
 
-    tabs.forEach((tab) => {
-        tab.addEventListener('click', () => activatePhase(tab.dataset.phase));
-        tab.addEventListener('keydown', (e) => {
-            const idx = tabs.indexOf(tab);
-            if (e.key === 'ArrowRight') {
-                e.preventDefault();
-                const next = tabs[(idx + 1) % tabs.length];
-                next.focus();
-                activatePhase(next.dataset.phase);
-            }
-            if (e.key === 'ArrowLeft') {
-                e.preventDefault();
-                const prev = tabs[(idx - 1 + tabs.length) % tabs.length];
-                prev.focus();
-                activatePhase(prev.dataset.phase);
-            }
-        });
-    });
+    function validate() {
+        let ok = true;
+        const name = fieldOf('fName');
+        const email = fieldOf('fEmail');
+        const company = fieldOf('fCompany');
+        const need = fieldOf('fNeed');
 
-    // Form placeholder note
-    const form = document.querySelector('.contact-form');
-    form?.addEventListener('submit', () => {
-        console.log('Configure Formspree endpoint before going live.');
-    });
+        [name, email, company, need].forEach((el) => el.classList.remove('invalid'));
+
+        if (!name.value.trim()) { name.classList.add('invalid'); ok = false; }
+        if (!EMAIL_RE.test(email.value.trim())) { email.classList.add('invalid'); ok = false; }
+        if (!company.value.trim()) { company.classList.add('invalid'); ok = false; }
+        if (!need.value) { need.classList.add('invalid'); ok = false; }
+
+        return ok;
+    }
+
+    if (form && success) {
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (!validate()) {
+                formError.hidden = false;
+                return;
+            }
+            formError.hidden = true;
+
+            const name = fieldOf('fName').value.trim();
+            const email = fieldOf('fEmail').value.trim();
+            const company = fieldOf('fCompany').value.trim();
+            const need = fieldOf('fNeed');
+            const needLabel = need.options[need.selectedIndex].text;
+            const notes = fieldOf('fNotes').value.trim();
+
+            const subject = `Audit request — ${company}`;
+            const body = [
+                `Name: ${name}`,
+                `Work email: ${email}`,
+                `Company: ${company}`,
+                `Needs: ${needLabel}`,
+                notes ? `Notes: ${notes}` : '',
+                '',
+                '— sent from jaiza site'
+            ].filter(Boolean).join('\n');
+
+            window.location.href = `mailto:contact@jaiza.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+            form.hidden = true;
+            success.hidden = false;
+            success.classList.add('is-visible');
+            success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        });
+
+        ['fName', 'fEmail', 'fCompany', 'fNeed'].forEach((id) => {
+            fieldOf(id).addEventListener('input', (e) => e.target.classList.remove('invalid'));
+            fieldOf(id).addEventListener('change', (e) => e.target.classList.remove('invalid'));
+        });
+
+        if (sendAnother) {
+            sendAnother.addEventListener('click', () => {
+                form.reset();
+                formError.hidden = true;
+                success.hidden = true;
+                form.hidden = false;
+                fieldOf('fName').focus();
+            });
+        }
+    }
 });
