@@ -18,13 +18,19 @@ The audit ends in **two documents**:
 
 Three movements, ten days: **Discover** (interviews, expense lines, network flows) → **Assess** (cost reconciliation + vendor terms) → **Deliver** (ledger + certificate + prioritized remediation plan).
 
+## Free AI Spend Scan (`scan.html`)
+
+A client-side lead-gen tool: the visitor drops a CSV of expenses/card statements (or pastes lines), and `scan.js` parses it **entirely in the browser** — no upload, no network call, no storage. It matches lines against a list of known AI vendors, totals monthly spend per tool (converting currencies), flags tools running in parallel within a category, applies an idle-seat estimate to seat-based tools, and shows a ledger preview with a CSV export and a CTA to book the audit. The paid audit remains the step that reconciles this against admin consoles, invoices, and network flows.
+
 ## Repository structure
 
 ```text
 jaiza/
-├── index.html
+├── index.html          # landing page
+├── scan.html           # free client-side spend scan
 ├── styles.css
-├── script.js
+├── script.js           # nav, reveals, contact form (mailto)
+├── scan.js             # the scanner (browser-only)
 ├── .github/workflows/ci.yml
 ├── README.md
 ├── LICENSE

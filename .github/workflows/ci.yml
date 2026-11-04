@@ -17,7 +17,6 @@ jobs:
           from html.parser import HTMLParser
 
           root = pathlib.Path(".")
-          html = (root / "index.html").read_text(encoding="utf-8")
 
           VOID = {"area","base","br","col","embed","hr","img","input","link","meta","source","track","wbr"}
 
@@ -39,26 +38,29 @@ jobs:
                   else:
                       self.errors.append(f"mismatched </{tag}>, open stack top: {self.stack[-1] if self.stack else None}")
 
-          c = Checker()
-          c.feed(html)
-          c.close()
-          if c.stack:
-              c.errors.append(f"unclosed tags: {c.stack}")
-          if c.errors:
-              print("HTML errors:", c.errors)
-              sys.exit(1)
+          html_files = sorted(root.glob("*.html"))
+          for page in html_files:
+              c = Checker()
+              c.feed(page.read_text(encoding="utf-8"))
+              c.close()
+              if c.stack:
+                  c.errors.append(f"unclosed tags: {c.stack}")
+              if c.errors:
+                  print(f"HTML errors in {page.name}:", c.errors)
+                  sys.exit(1)
 
-          refs = set(re.findall(r'(?:src|href)="([^"]+)"', html))
-          local = [r for r in refs if not r.startswith(("http://", "https://", "#", "mailto:", "tel:", "data:"))]
-          missing = [r for r in local if not (root / r).exists()]
-          if missing:
-              print("Missing local references:", sorted(missing))
-              sys.exit(1)
+              refs = set(re.findall(r'(?:src|href)="([^"]+)"', page.read_text(encoding="utf-8")))
+              local = [r for r in refs if not r.startswith(("http://", "https://", "#", "mailto:", "tel:", "data:")) and not r.endswith(".html")]
+              local += [r for r in refs if r.endswith(".html")]
+              missing = [r for r in local if not (root / r.split("#")[0]).exists()]
+              if missing:
+                  print(f"Missing local references in {page.name}:", sorted(missing))
+                  sys.exit(1)
 
-          for required in ("index.html", "styles.css", "script.js"):
+          for required in ("index.html", "scan.html", "styles.css", "script.js", "scan.js"):
               if not (root / required).exists():
                   print(f"Missing required file: {required}")
                   sys.exit(1)
 
-          print("OK")
+          print(f"OK ({len(html_files)} pages validated)")
           PY
