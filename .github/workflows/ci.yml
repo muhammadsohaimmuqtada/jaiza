@@ -50,8 +50,11 @@ jobs:
                   sys.exit(1)
 
               refs = set(re.findall(r'(?:src|href)="([^"]+)"', page.read_text(encoding="utf-8")))
-              local = [r for r in refs if not r.startswith(("http://", "https://", "#", "mailto:", "tel:", "data:")) and not r.endswith(".html")]
-              local += [r for r in refs if r.endswith(".html")]
+              local = [r for r in refs
+                       if not r.startswith(("http://", "https://", "#", "mailto:", "tel:", "data:"))
+                       and not r.endswith(".html")]
+              local += [r for r in refs
+                        if r.endswith(".html") and not r.startswith(("http://", "https://"))]
               missing = [r for r in local if not (root / r.split("#")[0]).exists()]
               if missing:
                   print(f"Missing local references in {page.name}:", sorted(missing))
