@@ -17,13 +17,14 @@ document.addEventListener('DOMContentLoaded', () => {
         { name: 'Tabnine',               cat: 'code',        seat: true,  keys: ['tabnine'] },
         { name: 'v0 / Vercel AI',        cat: 'code',        seat: false, keys: ['v0.dev', 'v0 by vercel', 'vercel ai'] },
         { name: 'Bolt.new / Lovable',    cat: 'code',        seat: false, keys: ['bolt.new', 'lovable'] },
+        { name: 'Azure OpenAI',          cat: 'infra',       seat: false, keys: ['azure openai', 'azure ai', 'openai.azure', 'azureml'] },
         { name: 'ChatGPT / OpenAI',      cat: 'chat',        seat: true,  keys: ['chatgpt', 'openai', 'gpt-', 'dall-e', 'sora', 'whisper'] },
         { name: 'Microsoft Copilot',     cat: 'chat',        seat: true,  keys: ['copilot', 'microsoft 365', 'office 365'] },
         { name: 'Claude / Anthropic',    cat: 'chat',        seat: true,  keys: ['anthropic', 'claude'] },
         { name: 'Google Gemini',         cat: 'chat',        seat: true,  keys: ['gemini', 'google ai', 'bard', 'notebooklm'] },
         { name: 'Perplexity',            cat: 'chat',        seat: true,  keys: ['perplexity'] },
         { name: 'Poe / You.com',         cat: 'chat',        seat: true,  keys: ['poe.com', 'you.com'] },
-        { name: 'Midjourney',            cat: 'creative',    seat: false, keys: ['midjourney'] },
+        { name: 'Midjourney',            cat: 'creative',    seat: false, keys: ['midjourney', 'midjourne'] },
         { name: 'Leonardo.ai',           cat: 'creative',    seat: false, keys: ['leonardo'] },
         { name: 'Adobe Firefly',         cat: 'creative',    seat: false, keys: ['firefly', 'adobe'] },
         { name: 'Runway',                cat: 'creative',    seat: false, keys: ['runway', 'runwayml'] },
@@ -37,7 +38,6 @@ document.addEventListener('DOMContentLoaded', () => {
         { name: 'Otter / Fireflies / Descript',   cat: 'productivity', seat: false, keys: ['otter.ai', 'fireflies', 'descript'] },
         { name: 'Zoom AI / Slack AI',    cat: 'productivity', seat: true,  keys: ['zoom ai', 'slack ai', 'teams ai'] },
         { name: 'AWS Bedrock / SageMaker', cat: 'infra',     seat: false, keys: ['bedrock', 'sagemaker', 'amazon q'] },
-        { name: 'Azure OpenAI',          cat: 'infra',       seat: false, keys: ['azure openai', 'azure ai', 'openai.azure'] },
         { name: 'Google Cloud AI / Vertex', cat: 'infra',   seat: false, keys: ['vertex ai', 'google cloud ai', 'ai platform'] },
         { name: 'OpenRouter / Together / Groq', cat: 'infra', seat: false, keys: ['openrouter', 'together.ai', 'together ai', 'groq', 'hugging face', 'huggingface'] },
     ];
@@ -92,6 +92,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (raw == null) return null;
         let s = String(raw).trim().toLowerCase();
         if (!s) return null;
+        // Reject date-like strings before stripping separators: "2026-01-01"
+        // would otherwise become the number 20260101.
+        if (/^\d{4}-\d{1,2}-\d{1,2}/.test(s) || /^\d{1,2}[\/\-.]\d{1,2}[\/\-.]\d{2,4}$/.test(s)) return null;
         let cur = null;
         for (const [sym, code] of Object.entries(CURRENCY_SYMBOL)) {
             if (s.includes(sym)) { cur = code; break; }
@@ -106,9 +109,14 @@ document.addEventListener('DOMContentLoaded', () => {
             else s = s.replace(/,/g, '');
         } else if (s.includes(',')) {
             const parts = s.split(',');
-            s = parts.length === 2 && parts[1].length === 3 && parts[0].length <= 3
-                ? s.replace(',', '.')   // 12,50 -> decimal
-                : s.replace(/,/g, ''); // thousands
+            // A comma is a decimal separator only when the file's currency uses
+            // comma-decimals AND there is no thousands grouping. "5,600" with a
+            // currency symbol present (₨ 5,600) is thousands — the 3-digit group
+            // after the comma with a leading 1-3 digit group is ambiguous, so we
+            // treat it as thousands when a currency symbol/code was detected,
+            // decimal otherwise (e.g. European "12,50" with no symbol).
+            const looksThousands = parts.length > 2 || (parts.length === 2 && parts[1].length === 3 && cur !== null);
+            s = looksThousands ? s.replace(/,/g, '') : s.replace(',', '.');
         }
         const n = parseFloat(s);
         if (!isFinite(n)) return null;
@@ -146,12 +154,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const hasHeader = descIdx !== -1 || amountIdx !== -1;
 
         if (amountIdx === -1) {
-            // pick the column with the most parseable amounts
+            // pick the column with the most parseable amounts, excluding
+            // columns that look like dates (dates must not parse as amounts)
             const width = Math.max(...rows.map((r) => r.length));
             let best = -1, bestCount = 0;
             for (let c = 0; c < width; c++) {
-                let count = 0;
-                for (const r of data) if (parseAmount(r[c]) !== null) count++;
+                let count = 0, dateLike = 0;
+                for (const r of data) {
+                    if (parseAmount(r[c]) !== null) count++;
+                    if (parseDate(r[c])) dateLike++;
+                }
+                if (dateLike > data.length * 0.5) continue; // this column is a date
                 if (count > bestCount) { bestCount = count; best = c; }
             }
             amountIdx = best;
@@ -186,9 +199,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const d = desc.toLowerCase();
         for (const v of VENDORS) {
             for (const k of v.keys) {
-                // short keys (<6 chars) must match on a word boundary to avoid
-                // false positives (e.g. "cursor" inside "cursor blink")
-                if (k.length < 6) {
+                // Short keys (<=6 chars, e.g. "cursor", "pika", "suno", "poe")
+                // must match on a word boundary to avoid false positives
+                // ("cursor blink", "pika pika", "sunoco").
+                if (k.length <= 6) {
+                    // Require a non-alphanumeric boundary on BOTH sides so
+                    // "cursor" doesn't match "cursor blink" or "precursor".
                     const re = new RegExp('(^|[^a-z0-9])' + k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '([^a-z0-9]|$)');
                     if (re.test(d)) return v;
                 } else if (d.includes(k)) {

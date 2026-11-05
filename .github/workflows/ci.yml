@@ -63,7 +63,7 @@ jobs:
           for required in ("index.html", "scan.html", "404.html", "styles.css", "script.js", "scan.js",
                            "robots.txt", "sitemap.xml", ".well-known/security.txt",
                            "assets/favicon-16.png", "assets/favicon-32.png", "assets/favicon-64.png",
-                           "assets/apple-touch-icon.png", "assets/og-image.png"):
+                           "assets/apple-touch-icon.png", "assets/og-image.png", "vercel.json"):
               if not (root / required).exists():
                   print(f"Missing required file: {required}")
                   sys.exit(1)

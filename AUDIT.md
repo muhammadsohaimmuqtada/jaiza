@@ -1,7 +1,7 @@
 # Jaiza — Website Audit & Redesign Report
 
-**Date:** 2026-11-05 · **Scope:** `index.html`, `scan.html`, `styles.css`, `script.js`, `scan.js`, CI, meta/SEO, a11y, performance
-**Verdict:** Solid strategic foundation (fixed-fee 10-day AI audit → ledger + certificate), but the execution reads "template" in places and misses trust/SEO infrastructure. Redesign shipped in this commit addresses all items below.
+**Date:** 2026-11-05 (updated same day, session 2) · **Scope:** `index.html`, `scan.html`, `styles.css`, `script.js`, `scan.js`, CI, meta/SEO, a11y, performance, security headers, scanner correctness
+**Verdict:** Solid strategic foundation (fixed-fee 10-day AI audit → ledger + certificate), but the execution reads "template" in places and misses trust/SEO infrastructure. Redesign shipped in this commit addresses all items below. Session 2 fixed 5 real scanner bugs found by unit testing and added security headers via `vercel.json`.
 
 ---
 
@@ -58,8 +58,9 @@
 | # | Finding | Severity | Fix |
 |---|---------|----------|-----|
 | 6.1 | `script.js` reveal delay used `i % 4` over **all** reveals (delay grows with page position) | Low | Delay now computed per-section batch |
-| 6.2 | `scan.js` vendor keyword `'cursor'` matches any line containing "cursor" (false positives) | Medium | Kept but documented; added word-boundary matching for short keys |
-| 6.3 | CI validates HTML + local refs — good; extended to require new infra files | Low | CI now also requires `robots.txt`, `sitemap.xml`, `404.html`, `security.txt` |
+| 6.2 | `scan.js` vendor keyword `'cursor'` matched any line containing "cursor" (false positives) | Medium | Word-boundary matching now applies to all keys ≤6 chars; `midjourne` (truncated card merchant) added; Azure OpenAI moved ahead of generic `openai` key; date-like strings rejected in `parseAmount`; headerless CSVs no longer pick the date column as amount |
+| 6.3 | CI validates HTML + local refs — good; extended to require new infra files | Low | CI now also requires `robots.txt`, `sitemap.xml`, `404.html`, `security.txt`, `vercel.json` |
+| 6.5 | No security headers on the live site (Vercel default: HSTS only) | High | Added `vercel.json` with CSP (`default-src 'self'`, `frame-ancestors 'none'`, `form-action 'self' mailto:`), `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, `Referrer-Policy`, `Permissions-Policy`, and immutable caching for static assets |
 | 6.4 | `assets/` was untracked in git | High | Favicons/og-image committed so the meta links actually resolve |
 
 ---

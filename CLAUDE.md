@@ -36,6 +36,15 @@ Live site: https://jaiza-chi.vercel.app/ · Repo remote: github.com/muhammadsoha
 5. Write 3 SEO articles (AI vendor questionnaire answers, AI spend audit Pakistan, SOC 2 questionnaire guide)
 6. 20 cold DMs/week; target first 2 audits at 50% for testimonials
 
+## Done in session 2 (2026-11-05, continued assessment)
+- **scan.js bug fixes** (63 unit tests in /tmp/jaiza-test/scan-test.mjs, all passing):
+  - `parseAmount` no longer parses dates as numbers (`2026-01-01` → was 20260101)
+  - `₨ 5,600` no longer parses as 5.6 (comma-as-decimal bug when currency symbol present)
+  - `matchVendor`: word-boundary matching for all keys ≤6 chars; `midjourne` (truncated merchant) added; Azure OpenAI ordered before generic `openai` key
+  - headerless CSV column detection no longer picks the date column as the amount column
+- **Security headers**: added `vercel.json` (CSP, X-Frame-Options, nosniff, Referrer-Policy, Permissions-Policy, immutable asset caching); CI now requires it
+- **Verified**: no secrets in repo, no network calls in scan.js/script.js, no storage/cookies, all innerHTML values escaped or numeric, live site matches local, HSTS present
+
 ## Session continuity
 - All decisions/progress go into the repo docs above + git commits (pushed).
 - Knowledge-graph memory holds a "Jaiza startup project" entity with the same summary.
