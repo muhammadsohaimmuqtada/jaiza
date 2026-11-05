@@ -29,12 +29,12 @@ Live site: https://jaiza-chi.vercel.app/ · Repo remote: github.com/muhammadsoha
 6. Privacy posture: scan.js parses **entirely client-side**, no uploads, no tracking — never break this.
 
 ## Queued next actions (pick up where we left off)
-1. Add Calendly link as primary "Book the audit" CTA (keep mailto fallback)
-2. Create redacted sample deliverable PDFs (ledger 1-pager + certificate) and link on site
-3. Write cold-DM script for LinkedIn outreach to Pakistani exporter founders
-4. Apply GitHub Student Developer Pack; join PASHA + NIC cohort
-5. Write 3 SEO articles (AI vendor questionnaire answers, AI spend audit Pakistan, SOC 2 questionnaire guide)
-6. 20 cold DMs/week; target first 2 audits at 50% for testimonials
+1. Add Calendly link as primary "Book the audit" CTA (keep mailto fallback) — **needs the user's Calendly URL**
+2. Apply GitHub Student Developer Pack; join PASHA + NIC cohort — **user action**
+3. Write 3 SEO articles (AI vendor questionnaire answers, AI spend audit Pakistan, SOC 2 questionnaire guide)
+4. 20 cold DMs/week using `OUTREACH.md` scripts; target first 2 audits at 50% for testimonials — **user action**
+5. One-page PDF "methodology" download (boards/insurers ask for it)
+6. One named USD enterprise testimonial (foreign-client proof)
 
 ## Done in session 2 (2026-11-05, continued assessment)
 - **scan.js bug fixes** (63 unit tests in /tmp/jaiza-test/scan-test.mjs, all passing):
@@ -44,6 +44,12 @@ Live site: https://jaiza-chi.vercel.app/ · Repo remote: github.com/muhammadsoha
   - headerless CSV column detection no longer picks the date column as the amount column
 - **Security headers**: added `vercel.json` (CSP, X-Frame-Options, nosniff, Referrer-Policy, Permissions-Policy, immutable asset caching); CI now requires it
 - **Verified**: no secrets in repo, no network calls in scan.js/script.js, no storage/cookies, all innerHTML values escaped or numeric, live site matches local, HSTS present
+
+## Done in session 3 (2026-11-05, continued assessment)
+- **Sample deliverables live**: `assets/samples/jaiza-sample-ledger.pdf` + `jaiza-sample-certificate.pdf` — 1-page A4, brand fonts (Fraunces/Inter/Plex Mono installed via `~/.local/share/fonts`), fictional entity "Meridian Systems (Pvt) Ltd", SAMPLE watermark. Sources + rebuild command in `samples-src/`. Linked from both deliverable cards.
+- **Fee band shown**: ₨150k–400k in Engagement lead + card foot (accent chip) + fee FAQ.
+- **`?ref=` passthrough**: form mailto carries `Source: <ref>` (sanitized, max 40 chars); convention documented in `OUTREACH.md`.
+- **`OUTREACH.md`**: targeting list, DM/email scripts, ref-tag convention, scan ice-breaker post, first-2-clients 50% offer script.
 
 ## Session continuity
 - All decisions/progress go into the repo docs above + git commits (pushed).

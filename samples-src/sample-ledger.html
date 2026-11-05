@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Jaiza — Sample AI Spend Ledger</title>
+<style>
+    :root {
+        --ink: #0B0D12;
+        --paper: #F6F3EC;
+        --bronze: #C8A24B;
+        --wine: #7A1E2D;
+        --muted: #4A5A6A;
+    }
+    @page { size: A4; margin: 0; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+        font-family: 'Inter', sans-serif;
+        font-size: 9.5px;
+        color: var(--ink);
+        background: var(--paper);
+        position: relative;
+    }
+    .page { padding: 14mm 15mm 12mm; }
+    .watermark {
+        position: fixed; top: 46%; left: 50%;
+        transform: translate(-50%, -50%) rotate(-24deg);
+        font-family: 'IBM Plex Mono', monospace;
+        font-size: 64px; font-weight: 600; letter-spacing: 0.35em;
+        color: rgba(122, 30, 45, 0.07);
+        white-space: nowrap; z-index: 0;
+    }
+    .z { position: relative; z-index: 1; }
+
+    .masthead {
+        display: flex; justify-content: space-between; align-items: baseline;
+        border-bottom: 2.5px solid var(--ink); padding-bottom: 8px;
+    }
+    .wordmark { font-family: 'Fraunces', serif; font-weight: 600; font-size: 21px; letter-spacing: 0.02em; }
+    .wordmark span { color: var(--bronze); }
+    .masthead-right { font-family: 'IBM Plex Mono', monospace; font-size: 7.5px; letter-spacing: 0.14em; color: var(--muted); text-align: right; }
+    .sample-tag {
+        display: inline-block; margin-top: 5px;
+        background: var(--wine); color: #F6F3EC;
+        font-family: 'IBM Plex Mono', monospace; font-size: 7px; letter-spacing: 0.2em;
+        padding: 2.5px 8px;
+    }
+
+    h1 { font-family: 'Fraunces', serif; font-weight: 500; font-size: 21px; margin: 14px 0 3px; }
+    .sub { color: var(--muted); font-size: 9.5px; margin-bottom: 12px; }
+    .sub b { color: var(--ink); font-weight: 600; }
+
+    .summary { display: flex; border-top: 1px solid #D9D2C3; border-bottom: 1px solid #D9D2C3; }
+    .sum-cell { flex: 1; padding: 9px 12px 8px; border-right: 1px solid #D9D2C3; }
+    .sum-cell:last-child { border-right: none; }
+    .sum-label { font-family: 'IBM Plex Mono', monospace; font-size: 6.8px; letter-spacing: 0.16em; color: var(--muted); margin-bottom: 4px; }
+    .sum-val { font-family: 'IBM Plex Mono', monospace; font-weight: 600; font-size: 16.5px; letter-spacing: -0.02em; }
+    .sum-note { font-size: 7.8px; color: var(--muted); margin-top: 2px; }
+    .recovery { color: var(--wine); }
+
+    table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+    th {
+        font-family: 'IBM Plex Mono', monospace; font-size: 6.8px; font-weight: 500;
+        letter-spacing: 0.14em; color: var(--muted); text-align: left;
+        border-bottom: 1.5px solid var(--ink); padding: 0 6px 5px 0;
+    }
+    th.num, td.num { text-align: right; padding-right: 0; }
+    th:last-child, td:last-child { padding-left: 14px; }
+    td { padding: 5.5px 6px 5.5px 0; border-bottom: 0.5px solid #D9D2C3; vertical-align: top; }
+    td.tool { font-weight: 600; font-size: 9.5px; }
+    td.tool small { display: block; font-weight: 400; font-size: 7.8px; color: var(--muted); margin-top: 1px; }
+    td.num { font-family: 'IBM Plex Mono', monospace; font-size: 9px; }
+    .finding { display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 6.8px; letter-spacing: 0.08em; padding: 2px 6px; background: rgba(122, 30, 45, 0.08); color: var(--wine); }
+    .finding.ok { background: rgba(11, 13, 18, 0.05); color: var(--muted); }
+    tr.total td { border-top: 1.5px solid var(--ink); border-bottom: none; font-weight: 600; padding-top: 7px; }
+    tr.total td.num { font-size: 10.5px; }
+
+    .findings-h { font-family: 'Fraunces', serif; font-weight: 500; font-size: 13px; margin: 14px 0 7px; }
+    .findings { display: flex; flex-direction: column; }
+    .f-row { display: flex; justify-content: space-between; align-items: baseline; padding: 4.5px 0; border-bottom: 0.5px solid #D9D2C3; gap: 10px; }
+    .f-row p { flex: 1; font-size: 8.8px; }
+    .f-row p b { font-weight: 600; }
+    .f-row p small { color: var(--muted); }
+    .f-amt { font-family: 'IBM Plex Mono', monospace; font-weight: 600; font-size: 9px; color: var(--wine); white-space: nowrap; }
+
+    .foot {
+        position: fixed; bottom: 8mm; left: 15mm; right: 15mm;
+        display: flex; justify-content: space-between;
+        font-family: 'IBM Plex Mono', monospace; font-size: 6.8px; letter-spacing: 0.1em;
+        color: var(--muted); border-top: 1px solid #D9D2C3; padding-top: 6px;
+    }
+</style>
+</head>
+<body>
+    <div class="watermark">SAMPLE</div>
+    <div class="page">
+        <div class="masthead z">
+            <div class="wordmark">Jaiza<span>.</span></div>
+            <div class="masthead-right">
+                AI SPEND LEDGER — DOC 01<br>
+                REF · JZ-2026-0000-S · ISSUED 05 NOV 2026
+            </div>
+        </div>
+        <div class="z"><span class="sample-tag">SAMPLE — FICTIONALIZED DATA, REAL FORMAT</span></div>
+
+        <h1 class="z">12-month AI spend, line by line.</h1>
+        <p class="sub z"><b>Engagement:</b> Meridian Systems (Pvt) Ltd — sample entity · 140 seats · software exporter (US clients) · <b>Period:</b> Nov 2025 – Oct 2026 · sources: card &amp; invoice lines, admin consoles, network flows</p>
+
+        <div class="summary z">
+            <div class="sum-cell">
+                <p class="sum-label">CURRENT MONTHLY AI SPEND</p>
+                <p class="sum-val">₨ 4.86M</p>
+                <p class="sum-note">≈ USD 17.4k/mo across 19 tools</p>
+            </div>
+            <div class="sum-cell">
+                <p class="sum-label">IDENTIFIED RECOVERY</p>
+                <p class="sum-val recovery">₨ 1.31M /mo</p>
+                <p class="sum-note">27% of spend — without cutting a single capable tool</p>
+            </div>
+            <div class="sum-cell">
+                <p class="sum-label">TOOLS REVIEWED</p>
+                <p class="sum-val">19</p>
+                <p class="sum-note">4 unsanctioned ("shadow") tools found</p>
+            </div>
+            <div class="sum-cell">
+                <p class="sum-label">SEATS IDLE &gt; 60 DAYS</p>
+                <p class="sum-val">112</p>
+                <p class="sum-note">paid, never opened — across 6 subscriptions</p>
+            </div>
+        </div>
+
+        <table class="z">
+            <thead>
+                <tr>
+                    <th style="width:34%">TOOL / SURFACE</th>
+                    <th class="num" style="width:13%">MONTHLY</th>
+                    <th class="num" style="width:9%">SEATS</th>
+                    <th style="width:44%">FINDING</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td class="tool">Microsoft 365 Copilot<small>per-seat, annual</small></td><td class="num">₨ 615k</td><td class="num">25</td><td><span class="finding">DUPLICATE — OVERLAPS CHATGPT TEAM IN 3 DEPTS</span></td></tr>
+                <tr><td class="tool">AWS Bedrock<small>API, on-demand</small></td><td class="num">₨ 890k</td><td class="num">—</td><td><span class="finding">UNROUTED — 71% ON PRICIEST TIER, EQUAL CHEAPER</span></td></tr>
+                <tr><td class="tool">Anthropic API<small>API, 3 projects</small></td><td class="num">₨ 640k</td><td class="num">—</td><td><span class="finding">REVIEW — RETENTION TERMS VS CLIENT DATA CLASSES</span></td></tr>
+                <tr><td class="tool">ChatGPT Team<small>46 seats purchased</small></td><td class="num">₨ 512k</td><td class="num">46</td><td><span class="finding">IDLE — 14 SEATS UNUSED 60+ DAYS</span></td></tr>
+                <tr><td class="tool">OpenAI API<small>API, 2 keys</small></td><td class="num">₨ 445k</td><td class="num">—</td><td><span class="finding">UNROUTED — ROUTE 40% TO MINI TIER</span></td></tr>
+                <tr><td class="tool">GitHub Copilot Business</td><td class="num">₨ 388k</td><td class="num">60</td><td><span class="finding ok">HEALTHY — 38% WEEKLY-ACTIVE, KEEP</span></td></tr>
+                <tr><td class="tool">Google Workspace AI<small>bundled add-on</small></td><td class="num">₨ 385k</td><td class="num">140</td><td><span class="finding">DOWNGRADE — 5% FEATURE USE, ALREADY PAY CHATGPT</span></td></tr>
+                <tr><td class="tool">Cursor Business</td><td class="num">₨ 214k</td><td class="num">22</td><td><span class="finding ok">HEALTHY — KEEP</span></td></tr>
+                <tr><td class="tool">Perplexity Pro</td><td class="num">₨ 121k</td><td class="num">18</td><td><span class="finding">OVERLAP — RESEARCH USE CASE COVERED BY CHATGPT</span></td></tr>
+                <tr><td class="tool">Notion AI</td><td class="num">₨ 118k</td><td class="num">74</td><td><span class="finding ok">KEEP — LOW COST PER ACTIVE USER</span></td></tr>
+                <tr><td class="tool">Midjourney<small>personal cards, no admin</small></td><td class="num">₨ 138k</td><td class="num">12</td><td><span class="finding">SHADOW — PERSONAL CARDS, NO CENTRAL CONTROL</span></td></tr>
+                <tr><td class="tool">Grammarly Business</td><td class="num">₨ 92k</td><td class="num">40</td><td><span class="finding">IDLE — 31 SEATS UNUSED 90+ DAYS</span></td></tr>
+                <tr><td class="tool">Jasper<small>annual, since 2025</small></td><td class="num">₨ 96k</td><td class="num">10</td><td><span class="finding">UNUSED — ZERO LOGINS SINCE MAY 2026</span></td></tr>
+                <tr><td class="tool">Gamma + misc card lines<small>individually expensed</small></td><td class="num">₨ 206k</td><td class="num">—</td><td><span class="finding">SHADOW — UNPOLICYED EXPENSES, 9 EMPLOYEES</span></td></tr>
+                <tr class="total"><td class="tool">TOTAL — 19 TOOLS</td><td class="num">₨ 4.86M</td><td class="num">433</td><td><span class="finding">RECOVERY ₨ 1.31M/MO · ₨ 15.7M/YR</span></td></tr>
+            </tbody>
+        </table>
+
+        <h2 class="findings-h z">Top recoveries, ranked</h2>
+        <div class="findings z">
+            <div class="f-row"><p><b>Idle enterprise seats</b> — 112 seats across 6 subscriptions <small>· paid, never opened in 60+ days</small></p><span class="f-amt">₨ 412k/mo</span></div>
+            <div class="f-row"><p><b>Duplicate chat tools ×3</b> — Copilot + ChatGPT + Perplexity in the same teams <small>· consolidate to one, keep Copilot for code</small></p><span class="f-amt">₨ 265k/mo</span></div>
+            <div class="f-row"><p><b>Unrouted API traffic</b> — Bedrock + OpenAI on priciest tiers <small>· route to cheaper models at equal eval quality</small></p><span class="f-amt">₨ 189k/mo</span></div>
+            <div class="f-row"><p><b>Unused subscriptions</b> — Jasper (zero logins since May), Gamma sprawl <small>· cancel / consolidate</small></p><span class="f-amt">₨ 170k/mo</span></div>
+            <div class="f-row"><p><b>Workspace AI add-on</b> — 5% feature use while ChatGPT covers the same jobs <small>· drop the add-on</small></p><span class="f-amt">₨ 130k/mo</span></div>
+            <div class="f-row"><p><b>Shadow-tool bring-in</b> — Midjourney + 8 personal-card tools <small>· centralize on one admin, kill duplicate cards</small></p><span class="f-amt">₨ 143k/mo</span></div>
+        </div>
+    </div>
+    <div class="foot">
+        <span>JAIZA · THE AI AUDIT — LEDGER + CERTIFICATE</span>
+        <span>SAMPLE ONLY · FICTIONAL DATA · CONTACT@JAIZA.COM</span>
+        <span>PAGE 1 / 1</span>
+    </div>
+</body>
+</html>

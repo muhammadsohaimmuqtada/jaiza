@@ -372,6 +372,20 @@ h2 {
 }
 .doc-cap b { color: var(--wine); }
 
+.doc-link {
+    display: inline-block;
+    margin-top: 14px;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink);
+    border-bottom: 1px solid var(--bronze);
+    padding-bottom: 2px;
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+.doc-link:hover, .doc-link:focus-visible { color: var(--wine); border-color: var(--wine); }
+
 /* ledger card (navy) */
 .dash {
     background: var(--ink);
@@ -602,6 +616,11 @@ h2 {
     background: rgba(246, 243, 236, 0.08);
     padding: 6px 10px;
     color: rgba(246, 243, 236, 0.7);
+}
+.mono-inline.accent {
+    background: var(--bronze);
+    color: var(--ink);
+    font-weight: 600;
 }
 
 /* ---------- quote ---------- */

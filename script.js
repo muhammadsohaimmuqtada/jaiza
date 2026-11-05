@@ -129,6 +129,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const formError = document.getElementById('formError');
     const sendAnother = document.getElementById('sendAnother');
 
+    // lead-source passthrough: /?ref=linkedin-dm or /?ref=pasha-list reaches the inbox
+    const refParam = new URLSearchParams(window.location.search).get('ref');
+    const leadRef = refParam ? refParam.replace(/[^a-zA-Z0-9_-]/g, '').slice(0, 40) : '';
+
     const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
     function fieldOf(id) {
@@ -175,6 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 `Company: ${company}`,
                 `Needs: ${needLabel}`,
                 notes ? `Notes: ${notes}` : '',
+                leadRef ? `Source: ${leadRef}` : '',
                 '',
                 '— sent from jaiza site'
             ].filter(Boolean).join('\n');

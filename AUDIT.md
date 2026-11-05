@@ -67,9 +67,13 @@
 
 ## Core strategic recommendations (beyond visuals)
 
-1. **Publish 2 anonymized sample deliverables** (a redacted ledger page + certificate) as PDFs — the single biggest trust asset for this offer. Gate behind email or leave public; either beats describing them.
+1. **Publish 2 anonymized sample deliverables** (a redacted ledger page + certificate) as PDFs — the single biggest trust asset for this offer. Gate behind email or leave public; either beats describing them. — ✅ **Shipped session 3:** `assets/samples/jaiza-sample-ledger.pdf` + `jaiza-sample-certificate.pdf` (fictional data, SAMPLE-marked), linked from both deliverable cards; sources in `samples-src/`
 2. **Add a "questionnaire response pack" SKU** — US/UK/Gulf vendor questionnaires are a recurring, lower-effort revenue line next to the 10-day audit.
-3. **Show the fee range.** "Fixed fee, quoted up front" converts better with a band (e.g. "PKR 1.5–4M depending on entity count") than with mystery.
-4. **Capture leads without a backend today:** keep mailto, but add a `?ref=` UTM passthrough and a Calendly link so "book the call" doesn't depend on email.
+3. **Show the fee range.** "Fixed fee, quoted up front" converts better with a band (e.g. "PKR 1.5–4M depending on entity count") than with mystery. — ✅ **Shipped session 3:** ₨150k–400k band in the Engagement lead, card foot, and fee FAQ
+4. **Capture leads without a backend today:** keep mailto, but add a `?ref=` UTM passthrough and a Calendly link so "book the call" doesn't depend on email. — ✅ Session 3: `?ref=` passthrough shipped (form mailto now carries `Source: <ref>`, sanitized). Calendly still pending (needs the user's Calendly URL).
 5. **Add a one-page PDF "methodology"** download — boards and insurers ask for it.
-6. **Localize proof:** PKR figures are good; add one USD enterprise example so foreign clients see themselves.
+6. **Localize proof:** PKR figures are good; add one USD enterprise example so foreign clients see themselves. — ◐ Partial session 3: USD equivalents shown in the ledger sample + fee context ("Big-4 5–10×"); a named USD testimonial still open.
+
+### Shipped in session 3 (2026-11-05)
+- Sample deliverable PDFs (ledger + certificate, 1 page each, brand fonts, SAMPLE watermark, fictional entity) + `samples-src/` build sources
+- Fee band surfaced in 3 places; `?ref=` lead-source passthrough; `OUTREACH.md` playbook (DM/email scripts, ref-tag convention, first-2-clients offer)
