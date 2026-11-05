@@ -1,6 +1,7 @@
 /**
  * Jaiza | The AI Audit
- * Mobile nav, header state, scroll reveals, contact form (mailto, no backend)
+ * Mobile nav, header state, scroll reveals, count-ups, FAQ accordion,
+ * contact form (mailto, no backend)
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -47,9 +48,11 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
 
-    /* ---------- reveal on scroll ---------- */
+    /* ---------- reveal on scroll (per-section stagger) ---------- */
     const revealEls = document.querySelectorAll('.reveal');
-    if ('IntersectionObserver' in window) {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if ('IntersectionObserver' in window && !reduceMotion) {
         const io = new IntersectionObserver(
             (entries) => {
                 entries.forEach((entry) => {
@@ -60,13 +63,65 @@ document.addEventListener('DOMContentLoaded', () => {
             },
             { rootMargin: '0px 0px -8% 0px', threshold: 0.1 }
         );
-        revealEls.forEach((el, i) => {
-            el.style.transitionDelay = `${Math.min(i % 4, 3) * 0.06}s`;
+        // stagger only siblings within the same parent, not across the whole page
+        const byParent = new Map();
+        revealEls.forEach((el) => {
+            const p = el.parentElement;
+            const n = byParent.get(p) || 0;
+            el.style.transitionDelay = `${Math.min(n, 3) * 0.07}s`;
+            byParent.set(p, n + 1);
             io.observe(el);
         });
     } else {
         revealEls.forEach((el) => el.classList.add('is-visible'));
     }
+
+    /* ---------- count-up stats ---------- */
+    const counters = document.querySelectorAll('.count[data-count]');
+    if (counters.length && 'IntersectionObserver' in window && !reduceMotion) {
+        const cio = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (!entry.isIntersecting) return;
+                    const el = entry.target;
+                    const target = parseInt(el.dataset.count, 10);
+                    const dur = 900;
+                    const t0 = performance.now();
+                    const tick = (t) => {
+                        const p = Math.min((t - t0) / dur, 1);
+                        const eased = 1 - Math.pow(1 - p, 3);
+                        el.textContent = Math.round(target * eased);
+                        if (p < 1) requestAnimationFrame(tick);
+                    };
+                    requestAnimationFrame(tick);
+                    cio.unobserve(el);
+                });
+            },
+            { threshold: 0.4 }
+        );
+        counters.forEach((c) => cio.observe(c));
+    } else {
+        counters.forEach((c) => { c.textContent = c.dataset.count; });
+    }
+
+    /* ---------- FAQ accordion ---------- */
+    document.querySelectorAll('.faq-item').forEach((item) => {
+        const btn = item.querySelector('.faq-q');
+        const panel = item.querySelector('.faq-a');
+        if (!btn || !panel) return;
+        btn.addEventListener('click', () => {
+            const open = btn.getAttribute('aria-expanded') === 'true';
+            // close others
+            document.querySelectorAll('.faq-q[aria-expanded="true"]').forEach((other) => {
+                if (other !== btn) {
+                    other.setAttribute('aria-expanded', 'false');
+                    other.parentElement.querySelector('.faq-a').style.maxHeight = '0px';
+                }
+            });
+            btn.setAttribute('aria-expanded', String(!open));
+            panel.style.maxHeight = open ? '0px' : panel.scrollHeight + 'px';
+        });
+    });
 
     /* ---------- contact form ---------- */
     const form = document.getElementById('contactForm');
@@ -129,7 +184,7 @@ document.addEventListener('DOMContentLoaded', () => {
             form.hidden = true;
             success.hidden = false;
             success.classList.add('is-visible');
-            success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            success.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' });
         });
 
         ['fName', 'fEmail', 'fCompany', 'fNeed'].forEach((id) => {

@@ -185,7 +185,16 @@ document.addEventListener('DOMContentLoaded', () => {
     function matchVendor(desc) {
         const d = desc.toLowerCase();
         for (const v of VENDORS) {
-            if (v.keys.some((k) => d.includes(k))) return v;
+            for (const k of v.keys) {
+                // short keys (<6 chars) must match on a word boundary to avoid
+                // false positives (e.g. "cursor" inside "cursor blink")
+                if (k.length < 6) {
+                    const re = new RegExp('(^|[^a-z0-9])' + k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '([^a-z0-9]|$)');
+                    if (re.test(d)) return v;
+                } else if (d.includes(k)) {
+                    return v;
+                }
+            }
         }
         return null;
     }
@@ -356,6 +365,45 @@ document.addEventListener('DOMContentLoaded', () => {
         a.remove();
         setTimeout(() => URL.revokeObjectURL(a.href), 1000);
     });
+
+    /* ---------- sample data ---------- */
+    const SAMPLE = [
+        'date,description,amount,currency',
+        '2026-08-02,CHATGPT.COM OPENAI,5600,PKR',
+        '2026-08-02,GITHUB COPILOT,2780,PKR',
+        '2026-08-03,CURSOR AI INC,5560,PKR',
+        '2026-08-04,CLAUDE.AI ANTHROPIC,5600,PKR',
+        '2026-08-05,MIDJOURNE.COM,8340,PKR',
+        '2026-08-06,NOTION AI,2780,PKR',
+        '2026-08-09,OPENAI API USAGE,41200,PKR',
+        '2026-08-11,GRAMMARLY BUSINESS,7800,PKR',
+        '2026-09-02,CHATGPT.COM OPENAI,5600,PKR',
+        '2026-09-02,GITHUB COPILOT,2780,PKR',
+        '2026-09-03,CURSOR AI INC,5560,PKR',
+        '2026-09-04,CLAUDE.AI ANTHROPIC,5600,PKR',
+        '2026-09-05,MIDJOURNE.COM,8340,PKR',
+        '2026-09-06,NOTION AI,2780,PKR',
+        '2026-09-09,OPENAI API USAGE,46800,PKR',
+        '2026-09-11,GRAMMARLY BUSINESS,7800,PKR',
+        '2026-10-02,CHATGPT.COM OPENAI,5600,PKR',
+        '2026-10-02,GITHUB COPILOT,2780,PKR',
+        '2026-10-03,CURSOR AI INC,5560,PKR',
+        '2026-10-04,CLAUDE.AI ANTHROPIC,5600,PKR',
+        '2026-10-05,MIDJOURNE.COM,8340,PKR',
+        '2026-10-06,NOTION AI,2780,PKR',
+        '2026-10-09,OPENAI API USAGE,52400,PKR',
+        '2026-10-11,GRAMMARLY BUSINESS,7800,PKR',
+        '2026-10-12,ACME CORP PAYROLL,-450000,PKR',
+        '2026-10-13,RENT OFFICE DHA,180000,PKR'
+    ].join('\n');
+
+    const sampleBtn = $('sampleBtn');
+    if (sampleBtn) {
+        sampleBtn.addEventListener('click', () => {
+            pasteInput.value = SAMPLE;
+            runScan(SAMPLE);
+        });
+    }
 
     /* ---------- input wiring ---------- */
     scanBtn.addEventListener('click', () => runScan(pasteInput.value));
