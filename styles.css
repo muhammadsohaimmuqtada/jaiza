@@ -1045,3 +1045,56 @@ h2 {
     .scan-bar-amt { text-align: left; }
     .limits-grid { grid-template-columns: 1fr; }
 }
+
+/* ---- privacy/terms legal pages + scan card-number tip ---- */
+.scan-tip {
+    margin: 10px 0 0;
+    font-family: var(--mono);
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: var(--muted);
+}
+.legal-page { padding: 72px 0 96px; }
+.legal-page h1 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(36px, 5vw, 56px);
+    letter-spacing: -0.01em;
+    line-height: 1.05;
+    margin: 0 0 10px;
+}
+.legal-page .legal-updated {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0 0 44px;
+}
+.legal-page h2 {
+    font-family: var(--mono);
+    font-weight: 500;
+    font-size: 13px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--bronze);
+    margin: 44px 0 12px;
+}
+.legal-page p, .legal-page li {
+    font-family: var(--body);
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--ink);
+    max-width: 68ch;
+}
+.legal-page ul, .legal-page ol { padding-left: 22px; margin: 12px 0; }
+.legal-page li { margin: 7px 0; }
+.legal-page a { color: var(--bronze); text-decoration: underline; text-underline-offset: 3px; }
+.legal-page .legal-box {
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--bronze);
+    background: var(--card);
+    padding: 16px 20px;
+    margin: 24px 0;
+}
+.legal-page .legal-box p { font-size: 14.5px; color: var(--muted); margin: 0; max-width: none; }

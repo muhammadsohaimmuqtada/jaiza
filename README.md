@@ -52,7 +52,14 @@ python3 -m http.server 8000
 # → http://127.0.0.1:8000
 ```
 
-CI validates that the HTML parses, all local asset references exist, and the required files are present.
+CI validates that the HTML parses, all local asset references exist, and the required files are present. It also fails the build if any page references a third-party resource: **all fonts, styles, scripts and images load from this site itself** (fonts are self-hosted in `assets/fonts/`, fetched once via the `fetch-fonts` GitHub Action). Loading fonts from fonts.googleapis.com would transmit every visitor's IP address to Google without consent — a documented GDPR violation (Landgericht München, 3 O 17493/20) — and would contradict the privacy claims on every page.
+
+## Privacy & legal pages
+
+- `privacy.html` — what the site collects (nothing), how the client-side scan works, email/engagement data handling, rights.
+- `terms.html` — scope wording required by law: independent spend assessment, not a statutory audit (chartered accountants only under the Companies Act 2017), not a legal certification; engagement/limitation terms.
+- `vercel.json` CSP allows only `'self'` font/style sources. The scan page advises removing full card numbers before pasting (PCI hygiene).
+- Deeper compliance analysis lives in `LEGAL-BASIS.md` (working doc, not part of the site).
 
 ## Status
 

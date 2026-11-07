@@ -16,9 +16,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
     <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/fonts/fonts.css">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -78,7 +76,7 @@
                         </div>
                         <div class="scan-note reveal">
                             <p class="sec-head">PRIVACY</p>
-                            <p>This page makes no upload and stores nothing. Close the tab and the data is gone. The 10-day audit goes further: admin consoles, API keys, and network flows.</p>
+                            <p>This page makes no upload, stores nothing, and loads nothing from third parties. Close the tab and the data is gone. The 10-day audit goes further: admin consoles, API keys, and network flows.</p>
                         </div>
                     </aside>
 
@@ -89,6 +87,7 @@
                             <label class="btn btn-ghost btn-sm" for="fileInput">Choose file</label>
                             <input type="file" id="fileInput" accept=".csv,.txt,text/csv,text/plain" hidden>
                             <div class="scan-or"><span>or paste lines</span></div>
+                            <p class="scan-tip">Tip: remove full card numbers before pasting — merchant, date and amount are enough.</p>
                             <textarea id="pasteInput" rows="6" spellcheck="false" placeholder="date, description, amount&#10;2026-10-02, CHATGPT.COM OPENAI, 5600&#10;2026-10-03, GITHUB COPILOT, 2780"></textarea>
                             <div class="scan-options">
                                 <div class="form-group scan-opt">
@@ -184,6 +183,8 @@
             <div class="footer-meta">
                 <a href="scan.html">Free spend scan</a>
                 <span>Lahore, Pakistan · serving MSME to enterprise</span>
+                <a href="privacy.html">Privacy</a>
+                <a href="terms.html">Terms</a>
                 <a href="mailto:contact@jaiza.com">contact@jaiza.com</a>
             </div>
         </div>

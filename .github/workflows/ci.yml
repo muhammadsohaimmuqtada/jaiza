@@ -60,7 +60,7 @@ jobs:
                   print(f"Missing local references in {page.name}:", sorted(missing))
                   sys.exit(1)
 
-          for required in ("index.html", "scan.html", "404.html", "styles.css", "script.js", "scan.js",
+          for required in ("index.html", "scan.html", "404.html", "privacy.html", "terms.html", "styles.css", "script.js", "scan.js", "assets/fonts/fonts.css",
                            "robots.txt", "sitemap.xml", ".well-known/security.txt",
                            "assets/favicon-16.png", "assets/favicon-32.png", "assets/favicon-64.png",
                            "assets/apple-touch-icon.png", "assets/og-image.png", "vercel.json"):
@@ -77,6 +77,24 @@ jobs:
                   if not (root / r.split("#")[0]).exists():
                       print(f"Missing local reference in {page.name}: {r}")
                       sys.exit(1)
+
+          # privacy: every style/script/image must load from this site itself —
+          # self-hosted fonts, no fonts.googleapis/gstatic, no third-party origins.
+          for page in html_files:
+              text = page.read_text(encoding="utf-8")
+              if "fonts.googleapis" in text or "fonts.gstatic" in text:
+                  print(f"Third-party font host referenced in {page.name}")
+                  sys.exit(1)
+              for tag in re.findall(r"<(?:link|script|img)[^>]*>", text):
+                  m = re.search(r'(?:src|href)="(https?://[^"]+)"', tag)
+                  if not m:
+                      continue
+                  if tag.startswith("<link") and not any(k in tag for k in ("stylesheet", "preload", "icon")):
+                      continue  # canonical/alternate metadata, not a resource load
+                  if tag.startswith("<script") and "src=" not in tag:
+                      continue  # inline/ld+json
+                  print(f"Third-party resource {m.group(1)} in {page.name}")
+                  sys.exit(1)
 
           print(f"OK ({len(html_files)} pages validated)")
           PY
